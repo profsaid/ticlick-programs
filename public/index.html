@@ -242,6 +242,7 @@ tailwind.config = {
   @keyframes tplIn{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
   @media (prefers-reduced-motion:reduce){.tpl-in{animation:none}}
   .popover{z-index:350!important}
+  [data-tpl-body]>*{flex-shrink:0}
 </style>
 <!-- Microsoft Clarity -->
 <script type="text/javascript">
@@ -1053,21 +1054,21 @@ const TPLS=[['Personal Information',['First Name','Last Name','Date of Birth','G
 const usedFixed=w=>new Set(w.sections.flatMap(sec=>sec.qs.filter(q=>q.fixed).map(q=>q.sysName)));
 function tplOpen(name){const w=cx(),T=TPLS.find(t=>t[0]===name),used=usedFixed(w);
   S.tpl={src:name,name,items:T[1].map(n=>{const L=LINKED.find(x=>x[0]===n);return {k:uid(),fixed:true,sys:n,title:n,type:L?L[2]:'Short Answer',icon:L?L[1]:'question',on:!used.has(n),already:used.has(n)}})};tplDraw()}
-function tplDraw(){const t=S.tpl;if(!t){closeModal();return}const n=t.items.filter(i=>i.on&&!i.already).length;
+function tplDraw(keep){const t=S.tpl;if(!t){closeModal();return}const prev=keep&&document.querySelector('[data-tpl-body]');const st=prev?prev.scrollTop:0;const n=t.items.filter(i=>i.on&&!i.already).length;
   const row=i=>`<div class="rounded-xl border ${i.already?'border-primary-100 bg-grey-50':'border-primary-200 bg-white'} p-3 flex items-start gap-3" data-tpl-row="${i.k}">
     <input type="checkbox" class="ck mt-3" ${i.on&&!i.already?'checked':''} ${i.already?'disabled':''} data-act="tplToggle" data-k="${i.k}" aria-label="Include ${esc(i.title)}">
     <div class="flex-1 min-w-0"><input class="inp !h-10 !bg-white ${i.already?'opacity-60':''}" value="${esc(i.title)}" data-tplf="${i.k}" ${i.already?'disabled':''} placeholder="Question" aria-label="Question name">
      <div class="flex items-center gap-2 mt-2 flex-wrap">${i.fixed?fixedTagS:''}${i.fixed&&i.title!==i.sys?`<span class="text-xs text-grey-500">System name: ${esc(i.sys)}</span>`:''}${i.already?'<span class="text-xs text-secondary-1000 font-medium">Already in application</span>':''}</div></div>
     <button class="h-10 w-[150px] shrink-0 rounded-lg border ${i.fixed?'border-primary-100 bg-grey-50 text-grey-500 cursor-not-allowed':'border-primary-200 bg-white text-grey-1000 hover:bg-primary-50'} px-2.5 flex items-center gap-1.5 text-xs font-medium" ${i.fixed?'disabled title="Fixed questions keep their type"':`data-act="tplType" data-k="${i.k}" aria-haspopup="menu" aria-expanded="false"`}><span class="flex-1 text-left truncate">${esc(i.type)}</span>${ic('chevD',14)}</button>
     ${i.fixed?'':`<button class="p-2 rounded hover:bg-red-100 mt-0.5" data-act="tplDel" data-k="${i.k}" aria-label="Remove question">${ic('trash',16,'#584777')}</button>`}</div>`;
-  $('#layer').innerHTML=`<div class="overlay !items-stretch !justify-end !p-0" data-act="ovl" data-tpl-ovl><aside class="w-[520px] max-w-full h-full bg-white flex flex-col shadow-2xl tpl-in" role="dialog" aria-modal="true" aria-label="Recommended section">
+  $('#layer').innerHTML=`<div class="overlay !items-stretch !justify-end !p-0 ${keep?'!animate-none':''}" style="${keep?'animation:none':''}" data-act="ovl" data-tpl-ovl><aside class="w-[520px] max-w-full h-full bg-white flex flex-col shadow-2xl ${keep?'':'tpl-in'}" role="dialog" aria-modal="true" aria-label="Recommended section">
    <div class="px-6 pt-5 pb-4 border-b border-primary-200"><div class="flex items-center justify-between"><span class="text-xs font-medium text-primary-1000 uppercase tracking-wide">Recommended section</span><button class="iconbtn !w-8 !h-8 !rounded-lg" data-act="tplClose" aria-label="Close">${ic('x',16)}</button></div>
     <label class="block text-xs text-grey-600 mt-3 mb-1">Section name</label><input class="inp !h-11 !bg-white text-base font-semibold" value="${esc(t.name)}" data-tpln aria-label="Section name">
     <div class="text-xs text-grey-600 mt-2">Untick what you don't need, rename questions or add your own. The template itself won't change.</div></div>
-   <div class="flex-1 min-h-0 overflow-y-auto px-6 py-4 flex flex-col gap-3">${t.items.map(row).join('')}
+   <div class="flex-1 min-h-0 overflow-y-auto px-6 py-4 flex flex-col gap-3" data-tpl-body>${t.items.map(row).join('')}
     <button class="dash h-11 inline-flex items-center justify-center gap-2" data-act="tplAddQ" aria-haspopup="menu" aria-expanded="false">${ic('plus',16,'#5B31AA',2)}Add question</button></div>
    <div class="px-6 py-4 border-t border-primary-200 flex items-center justify-between gap-3"><button class="btn btn-w h-12 px-5" data-act="tplClose">Cancel</button><button class="btn btn-p h-12 px-5" data-act="tplAdd" ${n?'':'disabled'}>${ic('plus',18,'currentColor',2)}Add to application (${n} question${n===1?'':'s'})</button></div></aside></div>`;
-  $('#layer')._acts=[]}
+  $('#layer')._acts=[];if(prev){const b=document.querySelector('[data-tpl-body]');if(b)b.scrollTop=st}}
 const tplRows=w=>{const added=w.tplAdded||[];return TPLS.map(([n,qs])=>`<button class="w-full h-12 shrink-0 px-3 rounded-xl border border-primary-200 bg-white flex items-center gap-2 text-sm font-medium text-grey-900 hover:bg-primary-50 hover:border-primary-300 transition text-left" data-act="tplOpen" data-n="${esc(n)}"><span class="text-primary-1000">${ic('cardList',20)}</span><span class="flex-1 truncate">${esc(n)}</span><span class="text-xs text-grey-500 font-normal">${qs.length} questions</span>${added.includes(n)?'<span class="pill !h-5 !px-2 !text-[11px] bg-green-100 text-green-700">Added</span>':''}${ic('chevR',16,'#827599')}</button>`).join('')};
 function renderQs(sec,ctx,si){
   const idx=new Map(sec.qs.map((q,i)=>[q.id,i]));
@@ -1347,10 +1348,10 @@ const H={
  pplaceMenu:(t)=>{openMenu(t,['All',...P_PLACE],v=>{S.pplace=v;render();requestAnimationFrame(animRows)},{cur:S.pplace||'All'})},
  tplOpen:(t)=>tplOpen(t.dataset.n),
  tplClose:()=>{S.tpl=null;closeModal()},
- tplToggle:(t)=>{const i=S.tpl.items.find(x=>x.k===t.dataset.k);if(i&&!i.already){i.on=!i.on;tplDraw()}},
- tplDel:(t)=>{S.tpl.items=S.tpl.items.filter(x=>x.k!==t.dataset.k);tplDraw()},
- tplType:(t)=>{const i=S.tpl.items.find(x=>x.k===t.dataset.k);openMenu(t,QTYPES.map(x=>x[0]),v=>{i.type=v;tplDraw()},{cur:i.type,fit:1})},
- tplAddQ:(t)=>{openMenu(t,QTYPES.map(x=>x[0]),v=>{S.tpl.items.push({k:uid(),fixed:false,title:'',type:v,on:true});tplDraw();sfx('pop');setTimeout(()=>{const r=[...document.querySelectorAll('[data-tplf]')].pop();r?.focus();r?.scrollIntoView({block:'center'})},30)},{fit:1})},
+ tplToggle:(t)=>{const i=S.tpl.items.find(x=>x.k===t.dataset.k);if(!i||i.already)return;i.on=t.checked;const n=S.tpl.items.filter(x=>x.on&&!x.already).length,b=document.querySelector('[data-act=tplAdd]');if(b){b.disabled=!n;b.lastChild.textContent='Add to application ('+n+' question'+(n===1?'':'s')+')'}},
+ tplDel:(t)=>{S.tpl.items=S.tpl.items.filter(x=>x.k!==t.dataset.k);tplDraw(1)},
+ tplType:(t)=>{const i=S.tpl.items.find(x=>x.k===t.dataset.k);openMenu(t,QTYPES.map(x=>x[0]),v=>{i.type=v;tplDraw(1)},{cur:i.type,fit:1})},
+ tplAddQ:(t)=>{openMenu(t,QTYPES.map(x=>x[0]),v=>{S.tpl.items.push({k:uid(),fixed:false,title:'',type:v,on:true});tplDraw(1);sfx('pop');setTimeout(()=>{const r=[...document.querySelectorAll('[data-tplf]')].pop();r?.focus();r?.scrollIntoView({block:'center'})},30)},{fit:1})},
  tplAdd:()=>{const t=S.tpl,w=cx();const names=new Set(w.sections.map(x=>x.name));let nm=(t.name||t.src).trim()||t.src,k=2;const base=nm;while(names.has(nm))nm=base+' ('+(k++)+')';
    const qs=t.items.filter(i=>i.on&&!i.already).map(i=>i.fixed?mkQ({fixed:true,sysName:i.sys,title:i.title||i.sys,type:i.type,answers:defAns(i.type)}):mkQ({title:i.title,type:i.type,answers:defAns(i.type)}));
    const sec={id:uid(),name:nm,badge:'',qs};if(w===S.wiz)sec.stage=null;w.sections.push(sec);w.secIdx=w.sections.length-1;w.tplAdded=[...new Set([...(w.tplAdded||[]),t.src])];
