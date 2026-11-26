@@ -131,6 +131,7 @@ tailwind.config = {
   .tabrow{display:flex;gap:24px;border-bottom:1px solid #DED6EE;padding:0 24px;overflow-x:auto}
   .tabrow button{height:64px;padding:0 4px;font-size:16px;font-weight:500;color:#827599;position:relative;white-space:nowrap;display:inline-flex;align-items:center;gap:8px}
   .tabrow button:hover{color:#5B31AA}
+  .tab-n{color:#FD8100;font-weight:400;font-variant-numeric:tabular-nums}
   .tabrow button.on{color:#5B31AA}.tabrow button.on:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:#5B31AA}
   .dash{border:1px dashed #CEC1E5;background:#F7F5FB;border-radius:12px;color:#5B31AA;font-weight:500;font-size:14px;transition:background-color 150ms}
   .dash:hover{background:#EFEAF6}
@@ -321,6 +322,50 @@ tailwind.config = {
   #page-title>span:first-child{flex-shrink:0}
   /* narrow screens: tighten the right side before truncating the title */
   @media (max-width:1366px){#statusbar [data-msg^='Ask Tia']{padding:0 10px}#statusbar [data-msg^='Ask Tia']>span+*{display:none}}
+
+  /* ---- editable cells by field type */
+  .fc{position:relative;display:flex;align-items:center;gap:6px;min-width:0;max-width:100%;height:32px;padding:0 8px;margin:0 -8px;border-radius:8px;border:1px solid transparent;cursor:pointer;color:#2E1955;transition:background 120ms,border-color 120ms}
+  .fc .fc-v{display:flex;align-items:center;gap:6px;min-width:0;flex:1;overflow:hidden;white-space:nowrap}
+  .fc .fc-aff{margin-left:auto;display:inline-flex;color:#968CAA;opacity:0;transition:opacity 120ms;flex-shrink:0}
+  .fc:hover,.fc:focus-visible{background:#EFEAF6}.fc:hover .fc-aff,.fc:focus-visible .fc-aff{opacity:1}
+  .fc:focus-visible{outline:2px solid #5B31AA;outline-offset:-2px}
+  .fc.fc-on{background:#fff;border-color:#5B31AA;box-shadow:0 0 0 2px #E6DEF3}
+  .fc-empty{color:#B7AFC6}.fc .fc-add{display:none;color:#5B31AA;font-size:13px;font-weight:500}.fc:hover .fc-empty{display:none}.fc:hover .fc-add{display:inline}
+  .fc-lock{cursor:not-allowed}.fc-lock:hover{background:#F6F5F8}
+  .fc.fc-saved{animation:fcSaved 900ms ease-out}@keyframes fcSaved{0%{background:#DEF7EC;box-shadow:0 0 0 2px #84E1BC}100%{background:transparent;box-shadow:0 0 0 0 transparent}}
+  .fc-pill{display:inline-flex;align-items:center;height:24px;padding:0 8px;border-radius:6px;font-size:12px;font-weight:500;white-space:nowrap;flex-shrink:0}
+  .fc-ed{position:fixed;z-index:80;background:#fff;border:1px solid #E5E1EC;border-radius:12px;box-shadow:0 12px 32px -8px rgba(46,25,85,.22),0 2px 6px rgba(46,25,85,.08);font-size:14px;color:#2E1955;animation:fcIn 120ms ease-out}
+  @keyframes fcIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .fc-ed-short,.fc-ed-num{display:flex;align-items:center;border:2px solid #5B31AA;border-radius:8px;padding:0 4px 0 8px;box-shadow:0 0 0 3px #E6DEF3}
+  .fc-ed.bad{border-color:#E02424;box-shadow:0 0 0 3px #FDE8E8}
+  .fc-in{flex:1;min-width:0;height:30px;border:0;outline:0;background:transparent;font:inherit;color:inherit;padding:0}
+  .fc-ed-num .fc-in{text-align:right}
+  .fc-step{display:flex;flex-direction:column;margin-left:4px}.fc-step button{height:14px;width:20px;display:grid;place-items:center;color:#6D5E88;border-radius:4px}.fc-step button:hover{background:#EFEAF6}.fc-step button:first-child svg{transform:rotate(180deg)}
+  .fc-err{position:absolute;left:0;top:calc(100% + 4px);background:#fff;color:#C81E1E;font-size:12px;padding:4px 8px;border-radius:6px;border:1px solid #F8B4B4;white-space:nowrap;box-shadow:0 4px 10px rgba(0,0,0,.06)}
+  .fc-ed-long{padding:8px;border:2px solid #5B31AA;box-shadow:0 0 0 3px #E6DEF3,0 12px 32px -8px rgba(46,25,85,.22)}
+  .fc-ta{width:100%;border:0;outline:0;resize:vertical;font:inherit;color:inherit;line-height:1.5;min-height:96px}
+  .fc-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;border-top:1px solid #EFEDF2}.fc-ed-long .fc-foot{padding:6px 2px 0}
+  .fc-cnt{font-size:12px;color:#6D5E88;font-variant-numeric:tabular-nums}
+  .fc-ed-phone{border:2px solid #5B31AA;box-shadow:0 0 0 3px #E6DEF3;border-radius:8px}
+  .fc-ph{display:flex;align-items:center;height:30px}.fc-code{display:flex;align-items:center;gap:4px;height:100%;padding:0 6px 0 8px;border-right:1px solid #E5E1EC;color:#2E1955}.fc-ph .fc-in{padding:0 8px}
+  .fc-codes{position:absolute;left:-2px;top:calc(100% + 6px);width:260px;background:#fff;border:1px solid #E5E1EC;border-radius:12px;padding:4px;box-shadow:0 12px 32px -8px rgba(46,25,85,.22)}
+  .fc-codes button,.fc-list button{display:flex;align-items:center;gap:8px;width:100%;min-height:36px;padding:6px 10px;border-radius:8px;text-align:left}
+  .fc-codes button:hover,.fc-list button:hover,.fc-list button.hi{background:#F3EFF9}.fc-list button.on{background:#F7F4FB;font-weight:500}
+  .fc-srch{display:flex;align-items:center;gap:8px;height:40px;padding:0 12px;border-bottom:1px solid #EFEDF2;color:#968CAA}.fc-srch input{flex:1;border:0;outline:0;font:inherit;color:#2E1955;min-width:0}
+  .fc-list{max-height:256px;overflow:auto;padding:4px}
+  .fc-ck{width:16px;height:16px;border-radius:4px;border:1.5px solid #B7AFC6;display:grid;place-items:center;font-size:11px;color:#fff;flex-shrink:0}.fc-ck.on{background:#5B31AA;border-color:#5B31AA}
+  .fc-btn{height:32px;padding:0 12px;border-radius:8px;font-size:13px;font-weight:500;color:#5B31AA}.fc-btn:hover{background:#F3EFF9}.fc-btn.p{background:#5B31AA;color:#fff}.fc-btn.p:hover{background:#4A2790}
+  .fc-ed-date{padding:12px}.fc-cal-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.fc-cal-h b{font-weight:500}.fc-cal-h button{width:28px;height:28px;display:grid;place-items:center;border-radius:8px;color:#6D5E88}.fc-cal-h button:hover{background:#F3EFF9}
+  .fc-cal-w,.fc-cal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}.fc-cal-w span{font-size:12px;color:#968CAA;height:28px;line-height:28px}
+  .fc-cal-g button{height:32px;border-radius:8px;font-size:13px;font-variant-numeric:tabular-nums}.fc-cal-g button:hover{background:#F3EFF9}.fc-cal-g button.today{color:#5B31AA;font-weight:600}.fc-cal-g button.on{background:#5B31AA;color:#fff}
+  .fc-cal-f{display:flex;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:1px solid #EFEDF2}.fc-cal-f button{font-size:13px;font-weight:500;color:#5B31AA;padding:4px 8px;border-radius:6px}.fc-cal-f button:hover{background:#F3EFF9}
+  .fc-copy{cursor:copy}.fc-copy .fc-cp{display:inline-flex;color:#968CAA;opacity:0;transition:opacity 120ms;flex-shrink:0}.fc-copy .fc-cp svg{width:14px;height:14px}
+  .fc-copy:hover .fc-cp,.fc-copy:focus-visible .fc-cp{opacity:1}
+  .fc-pen{display:inline-grid;place-items:center;width:26px;height:26px;margin-right:-4px;border-radius:6px;color:#6D5E88;opacity:0;flex-shrink:0;cursor:pointer;transition:opacity 120ms,background 120ms}
+  .fc-copy:hover .fc-pen,.fc-copy:focus-within .fc-pen{opacity:1}.fc-pen:hover{background:#fff;color:#5B31AA;box-shadow:0 0 0 1px #DED6EE}.fc-pen:focus-visible{opacity:1;outline:2px solid #5B31AA}
+  .fc-copy.fc-copied{background:#DEF7EC}.fc-copy.fc-copied .fc-cp{opacity:1;color:#0E9F6E}
+  .tnum{font-variant-numeric:tabular-nums}
+  .fc-pill.fc-shrink{flex-shrink:1;min-width:0;max-width:140px}
   /* editable cells (hover shows it's clickable, like the reference) */
   .cell-edit{display:inline-flex;align-items:center;gap:6px;max-width:100%;min-width:0;height:30px;padding:0 6px;margin-left:-6px;border-radius:8px;border:1px solid transparent;color:#584777;font-weight:500;transition:background-color 120ms,border-color 120ms}
   .cell-edit .chev{opacity:0;color:#968CAA;display:inline-flex;transition:opacity 120ms}
@@ -871,7 +916,7 @@ function successModal({title,body,actions}){const rm=matchMedia('(prefers-reduce
   $('#layer')._acts=actions;$('#layer .modal button.btn:last-child')?.focus();if(!rm)setTimeout(playTic,380)}
 
 /* ============================================================ shell */
-const MENU=[['L','dashboard','Dashboard','tc-dashboard'],['L','leads','Leads','tc-leads'],['G','programs'],['G','ce'],['G','sa'],['G','schools'],['L','reminders','Reminders','tc-reminder'],['L','all-placements','Placements','tc-placement'],['L','tasks','Tasks','taskSquare'],['L','system-users','System Users','personalcard'],['L','accounting','Accounting','math'],['L','commissions','Commissions','tc-commission'],['G','setup'],['L','settings','Settings','setting'],['L','knowledge-center','Knowledge Center','tc-knowledge-center']];
+const MENU=[['L','dashboard','Dashboard','tc-dashboard'],['L','leads','Leads','tc-leads'],['G','programs'],['G','ce'],['G','sa'],['G','schools'],['L','reminders','Reminders','tc-reminder'],['L','all-placements','Placements','tc-placement'],['L','tasks','Tasks','taskSquare'],['L','universities','Universities','tc-graduate'],['L','announcements','Announcements','tc-broadcast'],['L','system-users','System Users','personalcard'],['L','accounting','Accounting','math'],['L','commissions','Commissions','tc-commission'],['G','setup'],['L','settings','Settings','setting'],['L','knowledge-center','Knowledge Center','tc-knowledge-center']];
 /* Sidebar groups — Leads / Programs / Participants each split by module; System Setup sits above Settings */
 /* IA v3: Leads is one list for every lead (no module split); each module gets its own group */
 const GROUPS={
@@ -883,7 +928,7 @@ const GROUPS={
 };
 const isSA=()=>route.startsWith('sa/'),rb=()=>route.replace(/^sa\//,'');
 function menuActive(r){const sa=r.startsWith('sa/'),b=r.replace(/^sa\//,'');
-  if(['dashboard','reminders','all-placements','tasks','system-users','accounting','commissions','settings','knowledge-center'].includes(r))return[r,null];
+  if(['dashboard','reminders','all-placements','tasks','universities','announcements','system-users','accounting','commissions','settings','knowledge-center'].includes(r))return[r,null];
   if(b==='leads'||b==='lead'||b==='leads/follow-ups')return['leads',null];
   if(b==='programs'||b.startsWith('create'))return['programs',sa?'sa':'ex'];
   if(!sa&&(b==='applications'||b==='profile'))return['ce','apps'];if(!sa&&b==='placements')return['ce','place'];if(!sa&&b==='tracker')return['ce','track'];if(!sa&&b==='documents')return['ce','docs'];
@@ -985,7 +1030,7 @@ function bulkBar(key){const n=S.sel[key]?.size;if(!S.tnew||!n)return '';
   <button class="bb" data-act="bbAssign" data-k="${key}" aria-haspopup="menu" aria-expanded="false">${vx('user-tick',16)}Assign</button><button class="bb" data-act="bbLabel" data-k="${key}" aria-haspopup="menu" aria-expanded="false">${vx('tag',16)}Label</button>${['ceTrack','cePlace','ceDocs'].includes(key)?`<button class="bb" data-act="bbStage" data-k="${key}" aria-haspopup="menu" aria-expanded="false">${vx('layer',16)}Stage</button>`:key==='leads'?`<button class="bb" data-act="bbStatus" data-k="${key}" aria-haspopup="menu" aria-expanded="false">${vx('status',16)}Status</button>`:''}
   <button class="bb" data-act="toast" data-msg="Reminder sent to ${n} (prototype)">${ic('bell',16)}Send reminder</button><button class="bb" data-act="bulkExport" data-k="${key}">${ic('export',16)}Export</button>
   <button class="bb !text-red-600 hover:!bg-red-100" data-act="bbDelete" data-k="${key}">${ic('trash',16,'#E02424')}Delete</button><button class="bb" data-act="toast" data-msg="More actions — not part of this flow" aria-label="More">${kebab(16)}</button></div>`}
-S.colW={};const COLS={};const DEF_HIDE={leads:['phone','wa','age','gender','eng','uni','screen','mn','ln']};S.colHide={leads:new Set(DEF_HIDE.leads)};S.colOrd={};S.colPin={};S.colF={};
+S.colW={};const COLS={};const DEF_HIDE={leads:['wa']};S.colHide={leads:new Set(DEF_HIDE.leads)};S.colOrd={};S.colPin={};S.colF={};
 const ROW_AFTER={};
 const cellText=(c,r)=>{if(c.fv)return String(c.fv(r)??'');const v=r[c.k];if(v!=null&&typeof v!=='object')return String(v);return String(c.r(r)||'').replace(/<[^>]+>/g,' ').replace(/&nbsp;/g,' ').replace(/\s+/g,' ').trim()};
 const colFCount=k=>Object.values(S.colF[k]||{}).filter(x=>x&&x.size).length;
@@ -1079,16 +1124,18 @@ function tableHtml(key,cols,rows,rowCls){
   const all=rows.length&&rows.every(r=>S.sel[key].has(r.id)),some=rows.some(r=>S.sel[key].has(r.id));
   const sk=S.sort[key],ps=PS[key]||25,pages=Math.max(1,Math.ceil(rows.length/ps));PG[key]=Math.min(PG[key]||1,pages);
   const gf=S.tnew&&S.grp[key]&&rows.length?S.grp[key]:null;
-  const shown=gf?rows:rows.slice((PG[key]-1)*ps,PG[key]*ps);
+  if(gf){const ord=new Map();rows.forEach(r=>{const g=gval(r,gf);if(!ord.has(g))ord.set(g,ord.size)});rows=[...rows].sort((a,b)=>ord.get(gval(a,gf))-ord.get(gval(b,gf)))}
+  const gTot=gf?rows.reduce((m,r)=>{const g=gval(r,gf);m.set(g,(m.get(g)||0)+1);return m},new Map()):null;
+  const shown=rows.slice((PG[key]-1)*ps,PG[key]*ps); /* grouped view is paged too: 1500 rows in one DOM froze the page */
   const cw=c=>(S.colW[key]||{})[c.k]||c.w||(c.k==='act'?130:/name|program|school|major/i.test(c.k)?220:160);const minW=56+cols.reduce((a,c)=>a+cw(c),0);
   const stk2=cols.length>3&&cols[0].k!=='act';
   const sel=id=>S.sel[key].has(id);
   const pin=c=>S.colPin[key]?.has(c.k)&&c!==cols[0]?' data-pin="'+c.k+'"':'';
   const body=S.tload?Array.from({length:6},()=>`<tr class="sk"><td style="padding:0 0 0 20px"><span class="skel inline-block w-[18px] h-[18px]"></span></td>${cols.map((c,i)=>`<td><span class="skel block h-3.5" style="width:${i===0?70:40+((i*23)%45)}%"></span>${i===0?'<span class="skel block h-2.5 w-[40%] mt-1.5"></span>':''}</td>`).join('')}</tr>`).join('')
-   :(()=>{const rowH=(r,i)=>`<tr data-id="${r.id}" class="${sel(r.id)?'sel':''} ${r.dup?'dup':''} ${rowCls||''}"><td style="padding:0 0 0 20px"><span class="rnum">${i}</span><input type="checkbox" class="ck" data-act="selRow" data-k="${key}" data-id="${r.id}" ${sel(r.id)?'checked':''} aria-label="Select row"></td>${cols.map((c,j)=>c.k==='email'&&r.email?`<td class="copy-td"${pin(c)} data-copy="${esc(r.email)}" data-cl="Email" title="Click to copy">${c.r(r)}</td>`:`<td${j===0?' class="nm-td"':''}${pin(c)}>${c.r(r)}</td>`).join('')}</tr>${ROW_AFTER[key]?ROW_AFTER[key](r,cols.length+1):''}`;
+   :(()=>{const base=(PG[key]-1)*ps;const rowH=(r,i)=>`<tr data-id="${r.id}" class="${sel(r.id)?'sel':''} ${r.dup?'dup':''} ${rowCls||''}"><td style="padding:0 0 0 20px"><span class="rnum">${i}</span><input type="checkbox" class="ck" data-act="selRow" data-k="${key}" data-id="${r.id}" ${sel(r.id)?'checked':''} aria-label="Select row"></td>${cols.map((c,j)=>c.k==='email'&&r.email?`<td class="copy-td"${pin(c)} data-copy="${esc(r.email)}" data-cl="Email" title="Click to copy">${c.r(r)}</td>`:`<td${j===0?' class="nm-td"':''}${pin(c)}>${c.r(r)}</td>`).join('')}</tr>${ROW_AFTER[key]?ROW_AFTER[key](r,cols.length+1):''}`;
      if(!gf)return shown.map((r,i)=>rowH(r,(PG[key]-1)*ps+i+1)).join('');
      const groups=new Map();shown.forEach(r=>{const g=gval(r,gf);if(!groups.has(g))groups.set(g,[]);groups.get(g).push(r)});const col=S.gcol[key]||(S.gcol[key]=new Set());let n=0;
-     return [...groups].map(([g,rs])=>`<tr class="grp"><td colspan="${cols.length+1}"><button class="inline-flex items-center gap-2 text-sm font-semibold text-grey-1000" data-act="grpTog" data-k="${key}" data-g="${esc(g)}" aria-expanded="${!col.has(g)}"><span style="display:inline-flex;transition:transform 150ms;transform:rotate(${col.has(g)?-90:0}deg)">${ic('chevD',16)}</span>${esc(g)}<span class="font-normal text-grey-500">${rs.length}</span></button></td></tr>${col.has(g)?(n+=rs.length,''):rs.map(r=>rowH(r,++n)).join('')}`).join('')})();
+     return [...groups].map(([g,rs])=>`<tr class="grp"><td colspan="${cols.length+1}"><button class="inline-flex items-center gap-2 text-sm font-semibold text-grey-1000" data-act="grpTog" data-k="${key}" data-g="${esc(g)}" aria-expanded="${!col.has(g)}"><span style="display:inline-flex;transition:transform 150ms;transform:rotate(${col.has(g)?-90:0}deg)">${ic('chevD',16)}</span>${esc(g)}<span class="font-normal text-grey-500">${gTot.get(g)}</span></button></td></tr>${col.has(g)?(n+=rs.length,''):rs.map(r=>rowH(r,base+(++n))).join('')}`).join('')})();
   const filtered=(S.q[key]||'').trim()||(S.filt[key]&&S.filt[key]!=='All')||colFCount(key);
   const empty=filtered?`<div class="py-16 flex flex-col items-center gap-2 text-center fade-in"><div class="w-14 h-14 rounded-full bg-primary-100 flex items-center justify-center text-primary-1000">${ic('search',24)}</div><div class="text-base font-semibold text-grey-1000">No results found</div><div class="text-sm text-grey-600">Try changing the search or filters.</div><button class="btn btn-w h-10 px-4 mt-2" data-act="resetFilters" data-k="${key}">Reset filters</button></div>`
    :`<div class="py-16 flex flex-col items-center gap-2 text-center fade-in"><div class="w-14 h-14 rounded-full bg-primary-100 flex items-center justify-center text-primary-1000">${ic('note',24)}</div><div class="text-base font-semibold text-grey-1000">Nothing here yet</div><div class="text-sm text-grey-600">Records added to this list will appear here.</div></div>`; /* GAP: per-table empty-state copy not designed */
@@ -1097,7 +1144,7 @@ function tableHtml(key,cols,rows,rowCls){
    <thead><tr><th style="padding:0 0 0 20px"><input type="checkbox" class="ck" data-act="selAll" data-k="${key}" ${all?'checked':''} aria-label="Select all" ${some&&!all?'data-ind="1"':''}></th>
    ${cols.map((c,j)=>`<th${pin(c)}><div class="th-in">${c.sort?`<button class="flex items-center justify-between w-full gap-1" data-act="sort" data-k="${key}" data-f="${c.k}" aria-label="Sort by ${esc(String(c.label).replace(/<[^>]+>/g,''))}"><span class="flex items-center gap-1.5 min-w-0">${S.tnew&&c.k!=='act'?colIco(c):''}<span class="cell">${c.label}</span></span><span class="sorti shrink-0 text-grey-500 ${sk.k===c.k?'on':''}" style="${sk.k===c.k&&sk.d<0?'transform:scaleY(-1)':''}">${ic('sort',16)}</span></button>`:`<span class="flex items-center gap-1.5 min-w-0">${S.tnew&&c.k!=='act'?colIco(c):''}<span class="cell">${c.label}</span></span>`}${j>0&&c.k!=='act'&&!c.nof?colFBtn(key,c):''}</div>${c.k!=='act'?`<span class="col-rz" data-rz="${c.k}" data-k="${key}" data-ci="${j+1}" role="separator" aria-orientation="vertical" aria-label="Resize column" title="Drag to resize · double-click to reset"></span>`:''}</th>`).join('')}</tr></thead>
    <tbody>${body}</tbody>${false&&rows.length&&!S.tload?`<tfoot><tr><td></td>${cols.map(c=>c.k==='act'?'<td></td>':(()=>{const v=calcVal(key,c,rows),m=(S.calc[key]||{})[c.k];return `<td><button class="calc ${m?'on':''}" data-act="calcMenu" data-k="${key}" data-c="${c.k}" aria-haspopup="menu" aria-expanded="false">${m?`<span class="text-grey-500">${m.replace('Count ','').replace('Percent ','% ')}</span> <b class="font-semibold">${v}</b>`:'Calculate'}${ic('chevD',12)}</button></td>`})()).join('')}</tr></tfoot>`:''}</table>
-   ${rows.length||S.tload?'':empty}</div>${S.tload||gf?'':pager(rows.length,key)}${bulkBar(key)}`;
+   ${rows.length||S.tload?'':empty}</div>${S.tload?'':pager(rows.length,key)}${bulkBar(key)}`;
 }
 function applyRows(key,rows,searchFields,filterField){
   const q=S.q[key].trim().toLowerCase();let out=rows;
@@ -1155,24 +1202,177 @@ function gauge(segs,total='184,287'){
 const legend=rows=>`<div class="flex flex-col gap-3 mt-5">${rows.map(([c,l,v])=>`<div class="flex items-center gap-4 text-[15px]"><span class="w-6 h-3 rounded-full shrink-0" style="background:${c}"></span><span class="flex-1 text-grey-800">${l}</span><span class="text-grey-800" data-count>${v}</span></div>`).join('')}</div>`;
 const dcard=(icon,title,inner)=>`<div class="card p-6"><div class="flex items-center gap-3 mb-3">${icon}<h2 class="text-2xl font-medium text-grey-1000">${title}</h2></div>${inner}</div>`;
 
+
+/* ---- Editable table cells by field type (Short Text, Long Text, Single/Multiple Selection, Numbers, Phone, Date, Country, Dropdown) */
+const FC_ICO={short:'M8.5 8h7M12 8v8|M9 22h6c5 0 7-2 7-7V9c0-5-2-7-7-7H9C4 2 2 4 2 9v6c0 5 2 7 7 7z',long:'M3 4h18M12 4v16',single:'M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12s4.5 10 10 10z|M7.75 12l2.83 2.83 5.67-5.66',multi:'M9 22h6c5 0 7-2 7-7V9c0-5-2-7-7-7H9C4 2 2 4 2 9v6c0 5 2 7 7 7z|M7.75 12l2.83 2.83 5.67-5.66',num:'M9 22h6c5 0 7-2 7-7V9c0-5-2-7-7-7H9C4 2 2 4 2 9v6c0 5 2 7 7 7z|M8.5 9.5h2v5M8.5 14.5h4M14 9.5h1.5a1 1 0 0 1 0 2.5H14v2.5h2.5',phone:'M21.97 18.33c0 .36-.08.73-.25 1.09-.17.36-.39.7-.68 1.02-.49.54-1.03.93-1.64 1.18-.6.25-1.25.38-1.95.38-1.02 0-2.11-.24-3.26-.73s-2.3-1.15-3.44-1.98a28.75 28.75 0 0 1-3.28-2.8 28.42 28.42 0 0 1-2.79-3.27c-.82-1.14-1.48-2.28-1.96-3.41C2.24 8.67 2 7.58 2 6.54c0-.68.12-1.33.36-1.93.24-.61.62-1.17 1.15-1.67C4.15 2.31 4.85 2 5.59 2c.28 0 .56.06.81.18.26.12.49.3.67.56l2.32 3.27c.18.25.31.48.4.7.09.21.14.42.14.61 0 .24-.07.48-.21.71-.13.23-.32.47-.56.71l-.76.79c-.11.11-.16.24-.16.4 0 .08.01.15.03.23.03.08.06.14.08.2.18.33.49.76.93 1.28.45.52.93 1.05 1.45 1.58.54.53 1.06 1.02 1.59 1.47.52.44.95.74 1.29.92.05.02.11.05.18.08.08.03.16.04.25.04.17 0 .3-.06.41-.17l.76-.75c.25-.25.49-.44.72-.56.23-.14.46-.21.71-.21.19 0 .39.04.61.13.22.09.45.22.7.39l3.31 2.35c.26.18.44.39.55.64.1.25.16.5.16.78z',date:'M8 2v3M16 2v3M3.5 9.09h17M21 8.5V17c0 3-1.5 5-5 5H8c-3.5 0-5-2-5-5V8.5c0-3 1.5-5 5-5h8c3.5 0 5 2 5 5z',country:'M5.15 2v20|M5.15 4h11.2c2.7 0 3.3 1.5 1.4 3.4l-1.2 1.2c-.8.8-.8 2.1 0 2.8l1.2 1.2c1.9 1.9 1.2 3.4-1.4 3.4H5.15',dd:'M3 7h18M3 12h18M3 17h18'};
+const fcIcon=(t,s=16)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${FC_ICO[t].split('|').map(d=>`<path d="${d}"/>`).join('')}</svg>`;
+const FC_LOCK='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6 10V8c0-3.31 1-6 6-6s6 2.69 6 6v2M17 22H7c-4 0-5-1-5-5v-2c0-4 1-5 5-5h10c4 0 5 1 5 5v2c0 4-1 5-5 5z"/></svg>';
+const FC_PEN='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13.26 3.6-8.21 8.69c-.31.33-.61.98-.67 1.43l-.37 3.24c-.13 1.17.71 1.97 1.87 1.77l3.22-.55c.45-.08 1.08-.41 1.39-.75l8.21-8.69c1.42-1.5 2.06-3.21-.15-5.3-2.2-2.07-3.87-1.34-5.29.16zM11.89 5.05a6.13 6.13 0 0 0 5.45 5.15M3 22h18"/></svg>';
+const FC_FLAG={Egypt:'🇪🇬',Germany:'🇩🇪',Spain:'🇪🇸',Turkey:'🇹🇷','United States':'🇺🇸','United Kingdom':'🇬🇧',Canada:'🇨🇦',Jordan:'🇯🇴','Saudi Arabia':'🇸🇦','United Arab Emirates':'🇦🇪',France:'🇫🇷',Italy:'🇮🇹',Netherlands:'🇳🇱',Malaysia:'🇲🇾',Australia:'🇦🇺'};
+const FC_CODES=[['+20','🇪🇬','Egypt'],['+962','🇯🇴','Jordan'],['+966','🇸🇦','Saudi Arabia'],['+971','🇦🇪','UAE'],['+1','🇺🇸','United States'],['+44','🇬🇧','United Kingdom'],['+49','🇩🇪','Germany']];
+const FC_PILL=['bg-primary-100 text-primary-1000','bg-blue-100 text-blue-700','bg-green-100 text-green-700','bg-secondary-100 text-secondary-1000','bg-pink-100 text-pink-700','bg-teal-100 text-teal-700'];
+const fcPill=(v,opts)=>`<span class="fc-pill fc-shrink ${FC_PILL[Math.max(0,(opts||[]).indexOf(v))%FC_PILL.length]}"><span class="truncate">${esc(v)}</span></span>`;
+/* field definitions for the Leads table */
+/* Field cell component — one per field type, used by every table. Value lives on the row (r.f for lead extras, else r[field]). */
+const UNIS=['Cairo University','Ain Shams University','Alexandria University','Mansoura University','Helwan University','Assiut University','Zagazig University','German University in Cairo','American University in Cairo','Nile University'];
+const STAT_CLS={New:'bg-blue-100 text-blue-700',Contacted:'bg-yellow-100 text-yellow-800',Interested:'bg-green-100 text-green-700',Disqualified:'bg-red-100 text-red-600'};
+const PROG_OPTS=()=>[...EXP,...SAP].map(p=>typeof p==='string'?p:p.name||String(p));
+const FC_DEF={
+ email:{t:'short',label:'Email',copy:1,req:1,max:80,valid:v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)||'Enter a valid email, like name@mail.com'},
+ phone:{t:'phone',label:'Phone Number'},
+ wa:{t:'phone',label:'Whatsapp Number'},
+ age:{t:'date',label:'Age',age:1,hint:'Date of birth'},
+ gender:{t:'dd',label:'Gender',opts:['Male','Female']},
+ eng:{t:'dd',label:'English Level',opts:['Beginner','Lower intermediate','Intermediate','Upper intermediate','Advanced']},
+ uni:{t:'dd',label:'University',opts:UNIS},
+ screen:{t:'date',label:'Screening Interviews'},
+ mn:{t:'long',label:'Meetings Note',max:500},
+ status:{t:'single',label:'Status',opts:['New','Contacted','Disqualified'],cls:STAT_CLS},
+ rank:{t:'single',label:'Ranks',opts:['Hot','Warm','Cold'],view:v=>rankTag(v)},
+ prog:{t:'multi',label:'Programs Interested',opts:PROG_OPTS},
+ nat:{t:'country',label:'Nationality'},
+ country:{t:'country',label:'Country'},
+ city:{t:'short',label:'City',max:60},
+ website:{t:'short',label:'Website',copy:1,max:120},
+ contact:{t:'short',label:'Contact Name',max:80},
+ uname:{t:'short',label:'University Name',f:'name',req:1,max:120},
+ ustatus:{t:'single',label:'Status',f:'status',opts:['Active','Partner','Inactive'],cls:{Active:'bg-green-100 text-green-700',Partner:'bg-primary-100 text-primary-1000',Inactive:'bg-grey-100 text-grey-700'}},
+ tstatus:{t:'single',label:'Status',f:'status',opts:['Open','In progress','Overdue','Closed'],view:v=>stC(v)},
+ tpri:{t:'single',label:'Priority',f:'pri',opts:['Low','Medium','High','Urgent'],view:v=>`<span class="pill ${PRI[v]||''}">${esc(v)}</span>`},
+ aname:{t:'short',label:'Name',f:'name',req:1,max:80},
+ atype:{t:'dd',label:'Type',f:'type',opts:['Image','Video']},
+ abtn:{t:'short',label:'Button Name',f:'btn',max:30},
+ alink:{t:'short',label:'Link',f:'link',copy:1,max:200,valid:v=>/^https?:\/\/\S+\.\S+/.test(v)||'Enter a full link, like https://site.com'},
+ ashare:{t:'date',label:'Share at',f:'share'},
+ aexp:{t:'date',label:'Expire at',f:'exp'},
+ astatus:{t:'single',label:'Status',f:'status',opts:['Scheduled','Active','Expired'],cls:{Scheduled:'bg-blue-100 text-blue-700',Active:'bg-green-100 text-green-700',Expired:'bg-grey-100 text-grey-700'}},
+ program:{t:'single',label:'Program',opts:PROG_OPTS},
+ lstatus:{t:'single',label:'Lead Status',opts:['New','Contacted','Interested','Disqualified'],cls:STAT_CLS},
+ fstat:{t:'single',label:'Follow Up Status',opts:Object.keys(FU_ST),cls:FU_ST},
+ src:{t:'short',label:'Source',f:'src',get:r=>leadSrc(r),lock:'Source is set automatically from the lead form'}};
+const fcOpts=d=>typeof d.opts==='function'?d.opts():d.opts||[];
+const fcFld=k=>FC_DEF[k].f||k;
+const fcGet=(r,k)=>{const d=FC_DEF[k];if(d.get)return d.get(r);const f=fcFld(k);const v=r.f&&f in r.f?r.f[f]:r[f];return v==='—'?'':v};
+const fcPut=(r,k,v)=>{const f=fcFld(k);if(r.f&&f in r.f)r.f[f]=v;else r[f]=v};
+const phParse=v=>{if(Array.isArray(v))return v;if(!v)return null;const x=String(v).replace(/[\s()-]/g,'');const c=[...FC_CODES].sort((a,b)=>b[0].length-a[0].length).find(c=>x.startsWith(c[0]));return c?[c[0],x.slice(c[0].length)]:['+20',x.replace(/^\+/,'')]};
+/* lead-only extra fields (not on the base lead record) */
+function fcSeed(r){if(r.f)return r.f;const n=+String(r.id).replace(/\D/g,'')||0;
+ return r.f={mn:n%4?'':'Asked about visa timing and whether the program covers housing. Wants a call after 6 PM.',eng:['Beginner','Intermediate','Advanced','Upper intermediate',''][n%5],uni:n%4===3?'':UNIS[n%UNIS.length],prog:leadInt(r).slice(),nat:['Egypt','Egypt','Jordan','Saudi Arabia',''][n%5],age:n%5===4?'':(2002+n%7)+'-'+String(1+n%12).padStart(2,'0')+'-'+String(1+n%27).padStart(2,'0'),phone:['+20',String(1001234560+n*137).slice(0,10)],wa:n%3?['+20',String(1101234560+n*311).slice(0,10)]:null,screen:n%3?'':'2026-11-28',gender:n%2?'Female':'Male'}}
+const fcL=(r,k)=>{fcSeed(r);return fc(r,k)};
+const fcell=(r,k)=>fc(r,k);
+const fcFmtDate=v=>{if(!v)return '';const d=new Date(v+'T00:00');return d.getDate()+' '+d.toLocaleString('en',{month:'short'})+' '+d.getFullYear()};
+const fcAge=v=>{const b=new Date(v+'T00:00'),t=new Date();let a=t.getFullYear()-b.getFullYear();if(t<new Date(t.getFullYear(),b.getMonth(),b.getDate()))a--;return a};
+function fcView(k,v){const d=FC_DEF[k];
+ if(v==null||v===''||(Array.isArray(v)&&!v.length))return '';
+ if(d.view)return d.view(v);
+ switch(d.t){case 'single':return d.cls?`<span class="fc-pill fc-shrink ${d.cls[v]||'bg-grey-100 text-grey-700'}"><span class="truncate">${esc(v)}</span></span>`:fcPill(v,fcOpts(d));
+  case 'multi':{const a=v.slice(0,2).map(x=>`<span class="fc-pill fc-shrink bg-primary-50 text-grey-800" title="${esc(x)}"><span class="truncate">${esc(x)}</span></span>`).join('');return a+(v.length>2?`<span class="fc-pill bg-grey-100 text-grey-700">+${v.length-2}</span>`:'')}
+  case 'num':return `<span class="tnum">${esc(String(v))}</span>`;
+  case 'phone':{const p=phParse(v);if(!p)return '';const c=FC_CODES.find(x=>x[0]===p[0])||['','🏳️'];return `<span class="tnum">${c[1]} ${esc(p[0])} ${esc(p[1])}</span>`}
+  case 'date':return d.age?`<span class="tnum" title="Born ${esc(fcFmtDate(v))}">${fcAge(v)}</span>`:esc(fcFmtDate(v));
+  case 'country':return `<span>${FC_FLAG[v]||'🏳️'}</span><span>${esc(v)}</span>`;
+  case 'long':return `<span class="truncate">${esc(v)}</span>`;
+  default:return `<span class="truncate">${esc(String(v))}</span>`}}
+function fc(r,k){const d=FC_DEF[k],v=fcGet(r,k),view=fcView(k,v),menu=['single','multi','country','dd','date'].includes(d.t);
+ const tip=d.t==='long'&&v?` title="${esc(v)}"`:'';
+ if(d.lock)return `<div class="fc fc-lock" data-fc="${k}" data-id="${r.id}" tabindex="0" data-act="fcLocked" title="${esc(d.lock)}">${view||'<span class="fc-empty">—</span>'}<span class="fc-aff">${FC_LOCK}</span></div>`;
+ if((d.t==='phone'||d.copy)&&view){const p=d.t==='phone'?phParse(v):null,num=p?p[0]+' '+p[1]:String(v);return `<div class="fc fc-phone fc-copy" data-act="fcCopy" data-fc="${k}" data-id="${r.id}" data-num="${esc(num)}" tabindex="0" role="button" aria-label="Copy ${esc(d.label)} ${esc(num)}" title="Click to copy"><span class="fc-v">${view}</span><span class="fc-cp" aria-hidden="true">${COPY_ICO}</span><button type="button" class="fc-pen" data-act="fcEdit" aria-label="Edit ${esc(d.label)}" title="Edit">${FC_PEN}</button></div>`}
+ return `<div class="fc fc-${d.t}" data-act="fcEdit" data-fc="${k}" data-id="${r.id}" tabindex="0" role="button" aria-label="Edit ${esc(d.label)}" aria-haspopup="${menu?'listbox':'dialog'}"${tip}>${view?`<span class="fc-v">${view}</span>`:'<span class="fc-empty">—</span><span class="fc-add">+ Add</span>'}<span class="fc-aff">${menu?ic('chevD',16):FC_PEN}</span></div>`}
+
+/* editor */
+let FCE=null;
+function fcClose(save){if(!FCE)return;const e=FCE;FCE=null;if(save&&e.commit&&e.commit()===false){FCE=e;return}
+ e.el.remove();document.removeEventListener('mousedown',fcOut,true);e.cell?.classList.remove('fc-on');if(!save)e.cell?.focus()}
+function fcOut(ev){if(FCE&&!FCE.el.contains(ev.target)&&!FCE.cell.contains(ev.target))fcClose(FCE.textual)}
+function fcSet(r,k,v){const old=JSON.stringify(fcGet(r,k));if(FC_DEF[k].t==='phone'&&typeof fcGet(r,k)==='string'&&v)v=v[0]+v[1];fcPut(r,k,v);if(old===JSON.stringify(v))return;
+ render();requestAnimationFrame(()=>{const c=document.querySelector(`.fc[data-fc="${k}"][data-id="${r.id}"]`);if(c){c.classList.add('fc-saved');setTimeout(()=>c.classList.remove('fc-saved'),900)}});SFX.play&&SFX.play('success')}
+function fcNext(cell,back){const all=[...document.querySelectorAll('.fc:not(.fc-lock)')];const i=all.indexOf(document.querySelector(`.fc[data-fc="${cell.dataset.fc}"][data-id="${cell.dataset.id}"]`));const n=all[i+(back?-1:1)];if(n){n.scrollIntoView({block:'nearest',inline:'nearest'});fcOpen(n)}}
+function fcOpen(cell){fcClose(true);const k=cell.dataset.fc,d=FC_DEF[k],r=findRow(cell.dataset.id).row||S.leads.find(x=>x.id===cell.dataset.id);if(!r||!d)return;const v=fcGet(r,k);
+ const b=cell.getBoundingClientRect(),el=document.createElement('div');el.className='fc-ed fc-ed-'+d.t;el.setAttribute('role','dialog');el.setAttribute('aria-label','Edit '+d.label);
+ const place=(w,over)=>{const W=Math.max(w||0,b.width);let x=Math.min(b.left,innerWidth-W-12);el.style.left=Math.max(8,x)+'px';el.style.width=W+'px';
+   if(over){el.style.top=b.top+'px';el.style.minHeight=b.height+'px'}else{const h=el.offsetHeight||300;const below=b.bottom+4+h<innerHeight;el.style.top=(below?b.bottom+4:Math.max(8,b.top-h-4))+'px'}};
+ cell.classList.add('fc-on');document.body.appendChild(el);FCE={el,cell,k,r,textual:false,at:Date.now()};
+ const err=m=>{let e=el.querySelector('.fc-err');if(!e){e=document.createElement('div');e.className='fc-err';e.setAttribute('role','alert');el.appendChild(e)}e.textContent=m;el.classList.add('bad');SFX.play&&SFX.play('error')};
+ const keys=(inp,get,multi)=>inp.addEventListener('keydown',ev=>{if(ev.key==='Escape'){ev.preventDefault();fcClose(false)}else if(ev.key==='Enter'&&(!multi||ev.metaKey||ev.ctrlKey)){ev.preventDefault();fcClose(true)}else if(ev.key==='Tab'){ev.preventDefault();const c=FCE.cell;fcClose(true);if(!FCE)fcNext(c,ev.shiftKey)}});
+ if(d.t==='short'||d.t==='num'){
+  el.innerHTML=`<input class="fc-in ${d.t==='num'?'tnum':''}" ${d.t==='num'?'inputmode="numeric"':''} value="${esc(v==null?'':String(v))}" aria-label="${esc(d.label)}" maxlength="${d.max||80}">${d.t==='num'?`<span class="fc-step"><button type="button" data-s="1" aria-label="Increase">${ic('chevD',14)}</button><button type="button" data-s="-1" aria-label="Decrease">${ic('chevD',14)}</button></span>`:''}`;
+  place(0,true);const inp=el.querySelector('input');inp.focus();inp.select();FCE.textual=true;
+  el.querySelectorAll('[data-s]').forEach(s=>s.addEventListener('mousedown',ev=>{ev.preventDefault();const n=(parseInt(inp.value,10)||0)+ +s.dataset.s;inp.value=Math.min(d.max,Math.max(d.min,n));inp.dispatchEvent(new Event('input'))}));
+  inp.addEventListener('input',()=>{el.classList.remove('bad');el.querySelector('.fc-err')?.remove()});
+  FCE.commit=()=>{let x=inp.value.trim();if(d.t==='num'){if(x===''){fcSet(r,k,'');return}if(!/^\d+$/.test(x)){err('Numbers only');return false}x=+x;if(x<d.min||x>d.max){err(`Enter a number from ${d.min} to ${d.max}`);return false}}
+   else{if(!x&&d.req){err(d.label+' is required');return false}if(x&&d.valid){const ok=d.valid(x);if(ok!==true){err(ok);return false}}}
+   fcSet(r,k,x)};keys(inp);
+ }else if(d.t==='long'){
+  el.innerHTML=`<textarea class="fc-ta" rows="5" maxlength="${d.max}" aria-label="${esc(d.label)}">${esc(v||'')}</textarea><div class="fc-foot"><span class="fc-cnt"></span><span class="text-xs text-grey-500">⌘ Enter to save · Esc to cancel</span></div>`;
+  place(320,true);const ta=el.querySelector('textarea'),cnt=el.querySelector('.fc-cnt');const upd=()=>cnt.textContent=ta.value.length+' / '+d.max;upd();ta.addEventListener('input',upd);ta.focus();ta.setSelectionRange(ta.value.length,ta.value.length);FCE.textual=true;
+  FCE.commit=()=>fcSet(r,k,ta.value.trim());keys(ta,null,true);
+ }else if(d.t==='phone'){
+  const cur=phParse(v)||['+20',''];
+  el.innerHTML=`<div class="fc-ph"><button type="button" class="fc-code" aria-haspopup="listbox" aria-label="Country code">${(FC_CODES.find(x=>x[0]===cur[0])||FC_CODES[0])[1]} <span class="tnum">${esc(cur[0])}</span>${ic('chevD',14)}</button><input class="fc-in tnum" inputmode="tel" value="${esc(cur[1])}" aria-label="${esc(d.label)}" placeholder="1001234567"></div><div class="fc-codes hidden" role="listbox">${FC_CODES.map(c=>`<button type="button" role="option" data-c="${c[0]}" aria-selected="${c[0]===cur[0]}"><span>${c[1]}</span><span class="flex-1 text-left">${c[2]}</span><span class="tnum text-grey-600">${c[0]}</span></button>`).join('')}</div>`;
+  place(260,true);const inp=el.querySelector('input'),list=el.querySelector('.fc-codes');let code=cur[0];inp.focus();FCE.textual=true;
+  el.querySelector('.fc-code').addEventListener('click',()=>list.classList.toggle('hidden'));
+  list.querySelectorAll('[data-c]').forEach(o=>o.addEventListener('click',()=>{code=o.dataset.c;el.querySelector('.fc-code').innerHTML=`${(FC_CODES.find(x=>x[0]===code))[1]} <span class="tnum">${code}</span>${ic('chevD',14)}`;list.classList.add('hidden');inp.focus()}));
+  inp.addEventListener('input',()=>{el.classList.remove('bad');el.querySelector('.fc-err')?.remove()});
+  FCE.commit=()=>{const x=inp.value.replace(/[\s-]/g,'');if(!x){fcSet(r,k,null);return}if(!/^\d{7,12}$/.test(x)){err('Enter 7–12 digits, without the country code');return false}fcSet(r,k,[code,x])};keys(inp);
+ }else if(d.t==='date'){
+  let sel=v?new Date(v+'T00:00'):null,view=new Date(sel||(d.age?new Date(2004,0,1):new Date()));view.setDate(1);
+  const iso=x=>x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0');
+  const draw=()=>{const y=view.getFullYear(),m=view.getMonth(),first=(new Date(y,m,1).getDay()+6)%7,days=new Date(y,m+1,0).getDate(),today=iso(new Date());
+   el.innerHTML=`${d.hint?`<div class="text-xs text-grey-600 mb-1">${esc(d.hint)}</div>`:''}<div class="fc-cal-h"><span class="flex"><button type="button" data-n="-12" aria-label="Previous year" class="font-medium">«</button><button type="button" data-n="-1" aria-label="Previous month" class="rotate-90">${ic('chevD',16)}</button></span><b>${view.toLocaleString('en',{month:'long'})} ${y}</b><span class="flex"><button type="button" data-n="1" aria-label="Next month" class="-rotate-90">${ic('chevD',16)}</button><button type="button" data-n="12" aria-label="Next year" class="font-medium">»</button></span></div><div class="fc-cal-w">${['Mo','Tu','We','Th','Fr','Sa','Su'].map(x=>`<span>${x}</span>`).join('')}</div><div class="fc-cal-g" role="grid">${'<span></span>'.repeat(first)}${Array.from({length:days},(_,i)=>{const dd=iso(new Date(y,m,i+1));return `<button type="button" data-d="${dd}" class="${sel&&iso(sel)===dd?'on':''} ${dd===today?'today':''}">${i+1}</button>`}).join('')}</div><div class="fc-cal-f"><button type="button" data-q="today">Today</button><button type="button" data-q="clear">Clear</button></div>`;
+   el.querySelectorAll('[data-n]').forEach(b=>b.addEventListener('click',()=>{view.setMonth(view.getMonth()+ +b.dataset.n);draw()}));
+   el.querySelectorAll('[data-d]').forEach(b=>b.addEventListener('click',()=>{const x=b.dataset.d;fcClose(false);fcSet(r,k,x)}));
+   el.querySelector('[data-q=today]').addEventListener('click',()=>{fcClose(false);fcSet(r,k,iso(new Date()))});
+   el.querySelector('[data-q=clear]').addEventListener('click',()=>{fcClose(false);fcSet(r,k,'')})};
+  draw();place(280);el.tabIndex=-1;el.focus();el.addEventListener('keydown',ev=>{if(ev.key==='Escape')fcClose(false)});
+ }else{ /* single · multi · country · dd */
+  const multi=d.t==='multi',opts=d.t==='country'?Object.keys(FC_FLAG):fcOpts(d);let picked=multi?new Set(v||[]):null;const search=true;
+  const row=(o,i)=>{const on=multi?picked.has(o):v===o;return `<button type="button" role="option" data-i="${i}" aria-selected="${on}" class="${on?'on':''}">${multi?`<span class="fc-ck ${on?'on':''}">${on?'✓':''}</span>`:''}${d.t==='country'?`<span>${FC_FLAG[o]}</span>`:''}${d.t==='single'?fcPill(o,opts):`<span class="flex-1 text-left truncate">${esc(o)}</span>`}${!multi&&on?`<span class="ml-auto text-primary-1000">✓</span>`:''}</button>`};
+  const noneRow=()=>{const on=multi?!picked.size:!v;return `<button type="button" role="option" data-none="1" aria-selected="${on}" class="${on?'on':''}">${multi?`<span class="fc-ck ${on?'on':''}">${on?'✓':''}</span>`:''}<span class="flex-1 text-left text-grey-500">None</span>${!multi&&on?`<span class="ml-auto text-primary-1000">✓</span>`:''}</button>`};
+  el.innerHTML=`${search?`<div class="fc-srch">${ic('search',16)}<input placeholder="Search .." aria-label="Search options"></div>`:''}<div class="fc-list" role="listbox" ${multi?'aria-multiselectable="true"':''}>${noneRow()}${opts.map(row).join('')}</div>${multi?`<div class="fc-foot"><span class="text-xs text-grey-600 fc-cnt">${picked.size} selected</span><span class="flex gap-2"><button type="button" class="fc-btn" data-x="cancel">Cancel</button><button type="button" class="fc-btn p" data-x="apply">Apply</button></span></div>`:v&&d.t!=='single'?'':''}`;
+  place(multi?300:260);const q=el.querySelector('.fc-srch input');
+  const bindNone=()=>el.querySelector('[data-none]')?.addEventListener('click',()=>{if(multi){picked.clear();list.innerHTML=noneRow()+opts.map(row).join('');el.querySelector('.fc-cnt').textContent='0 selected';bind();bindNone()}else{fcClose(false);fcSet(r,k,'')}});(q||el.querySelector('[role=option]'))?.focus();
+  const list=el.querySelector('.fc-list');let hi=-1;
+  const bind=()=>list.querySelectorAll('[data-i]').forEach(b=>b.addEventListener('click',()=>{const o=opts[+b.dataset.i];if(multi){picked.has(o)?picked.delete(o):picked.add(o);b.outerHTML=row(o,+b.dataset.i);const nn=list.querySelector('[data-none]');if(nn)nn.outerHTML=noneRow();el.querySelector('.fc-cnt').textContent=picked.size+' selected';bind();bindNone()}else{fcClose(false);fcSet(r,k,o)}}));bind();bindNone();
+  q&&q.addEventListener('input',()=>{const s=q.value.toLowerCase();list.querySelectorAll('[data-i]').forEach(b=>b.hidden=!opts[+b.dataset.i].toLowerCase().includes(s));const nn=list.querySelector('[data-none]');if(nn)nn.hidden=!!s});
+  el.addEventListener('keydown',ev=>{const vis=[...list.querySelectorAll('[role=option]:not([hidden])')];
+   if(ev.key==='Escape'){ev.preventDefault();fcClose(false)}
+   else if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){ev.preventDefault();hi=Math.max(0,Math.min(vis.length-1,hi+(ev.key==='ArrowDown'?1:-1)));vis.forEach((b,i)=>b.classList.toggle('hi',i===hi));vis[hi]?.scrollIntoView({block:'nearest'})}
+   else if(ev.key==='Enter'){ev.preventDefault();if(vis[hi])vis[hi].click();else if(multi)el.querySelector('[data-x=apply]').click()}});
+  el.querySelectorAll('[data-x]').forEach(b=>b.addEventListener('click',()=>{const x=b.dataset.x;fcClose(false);if(x==='apply')fcSet(r,k,[...picked]);if(x==='clear')fcSet(r,k,multi?[]:'')}));
+ }
+ setTimeout(()=>document.addEventListener('mousedown',fcOut,true));
+}
+document.addEventListener('keydown',ev=>{const c=ev.target.closest?.('.fc');if(!c||FCE)return;if(ev.target.closest('.fc-pen'))return;if(ev.key==='Enter'||ev.key==='F2'){ev.preventDefault();if(c.classList.contains('fc-lock'))toast(FC_DEF[c.dataset.fc].lock);else if(c.classList.contains('fc-copy')&&ev.key==='Enter')H.fcCopy(c);else fcOpen(c)}});
+document.addEventListener('scroll',ev=>{if(!FCE||Date.now()-FCE.at<400||FCE.el.contains(ev.target))return;fcClose(FCE.textual)},true);
+
 /* ============================================================ pages */
 function pgLeads(){
   const rows=applyRows('leads',S.leads.filter(l=>S.leadSource==='All'||l.refer===S.leadSource),['name','code','email','status','rank'],'status');LIST.leads=()=>rows;
   const cols=[
-   {k:'name',label:'Lead',sort:1,r:nameCell},{k:'email',label:'Email',sort:1,r:r=>`<span class="cell">${esc(r.email)}</span>`},
-   {k:'assigned',label:'Assigned to',sort:1,r:asgC},
-   {k:'partner',label:'Partner',w:180,r:prtC},{k:'refer',label:'Refer',sort:1,r:r=>`<button class="cell-dd" data-act="cellDD" data-f="refer" data-id="${r.id}" aria-haspopup="menu" aria-expanded="false"><span class="cell">${esc(r.refer)}</span><span class="chev">${ic('chevD',16)}</span></button>`},
-   {k:'src',label:'Source',sort:1,w:150,fv:r=>leadSrc(r),r:r=>txtC(leadSrc(r))},{k:'status',label:'Status',sort:1,r:r=>`<button class="cell-dd" data-act="cellDD" data-f="status" data-id="${r.id}" aria-haspopup="menu" aria-expanded="false"><span class="cell">${esc(r.status)}</span><span class="chev">${ic('chevD',16)}</span></button>`},
-   {k:'rank',label:'Rank',sort:1,r:r=>rankTag(r.rank)},
+   {k:'name',label:'Lead',sort:1,r:nameCell},
+   {k:'email',label:'Email',sort:1,w:250,r:r=>fcL(r,'email')},
+   {k:'phone',label:'Phone Number',w:230,r:r=>fcL(r,'phone')},
+   {k:'wa',label:'Whatsapp Number',w:230,r:r=>fcL(r,'wa')},
+   {k:'age',label:'Age',w:100,fv:r=>fcSeed(r).age,r:r=>fcL(r,'age')},
+   {k:'gender',label:'Gender',w:120,fv:r=>fcSeed(r).gender,r:r=>fcL(r,'gender')},
+   {k:'nat',label:'Nationality',w:180,fv:r=>fcSeed(r).nat,r:r=>fcL(r,'nat')},
+   {k:'eng',label:'English Level',w:180,fv:r=>fcSeed(r).eng,r:r=>fcL(r,'eng')},
+   {k:'uni',label:'University',w:220,fv:r=>fcSeed(r).uni,r:r=>fcL(r,'uni')},
+   {k:'assigned',label:'Assigned Employee',sort:1,r:asgC},
+   {k:'partner',label:'Partner',w:180,r:prtC},
+   {k:'screen',label:'Screening Interviews',w:190,fv:r=>fcSeed(r).screen,r:r=>fcL(r,'screen')},
+   {k:'mn',label:'Meetings Note',w:220,r:r=>fcL(r,'mn')},
+   {k:'ln',label:'Lead Notes',w:140,r:noteC},
+   {k:'status',label:'Status',sort:1,w:150,r:r=>fcL(r,'status')},
+   {k:'rank',label:'Ranks',sort:1,w:130,r:r=>fcL(r,'rank')},
    {k:'lbl',label:'Labels',r:lblC},
-   {k:'prog',label:'Programs Interested',sort:1,w:220,fv:r=>leadInt(r).join(', '),r:r=>fitList(leadInt(r))},
+   {k:'prog',label:'Programs Interested',sort:1,w:280,fv:r=>fcSeed(r).prog.join(', '),r:r=>fcL(r,'prog')},
+   {k:'src',label:'Source',sort:1,w:150,fv:r=>leadSrc(r),r:r=>fcL(r,'src')},
+   {k:'upd',label:'Last Update',sort:1,w:170,fv:r=>String(updOf(r).upd),r:r=>updC(updOf(r))},
    {k:'penr',label:'Program Enrolled',w:200,fv:r=>r.progs?.length?r.progs.join(', '):'',r:r=>r.progs?.length?fitList(r.progs):dashC},
    {k:'est',label:'Enroll Status',w:150,fv:r=>r.progs?.length?'Enrolled':'Not Enrolled',r:r=>r.progs?.length?'<span class="pill !h-7 bg-green-100 text-green-700">Enrolled</span>':'<span class="pill !h-7 bg-grey-100 text-grey-700">Not Enrolled</span>'},
    {k:'enr',label:'Enroll',sort:1,r:r=>r.dup?`<span class="flex items-center gap-2"><button class="tip p-1 rounded hover:bg-primary-100" data-tip="Enroll" data-act="enroll" data-id="${r.id}" aria-label="Enroll">${ic('enroll',20,'#6D5E88')}</button></span>`:`<button class="tip p-1 rounded hover:bg-primary-100" data-tip="${r.progs?.length?'Enroll in another program':'Enroll'}" data-act="enroll" data-id="${r.id}" aria-label="Enroll">${ic('enroll',20,'#6D5E88')}</button>`},
-   {k:'phone',label:'Phone Number',w:170,r:r=>txtC(xphone(+r.id.slice(1)))},{k:'wa',label:'Whatsapp Number',w:170,r:r=>txtC(xphone(+r.id.slice(1)+7))},{k:'age',label:'Age',w:90,r:r=>txtC(String(19+(+r.id.slice(1))%9))},{k:'gender',label:'Gender',w:110,r:r=>txtC(+r.id.slice(1)%2?'Female':'Male')},
-   {k:'eng',label:'English Level',w:150,r:r=>txtC(['Beginner','Intermediate','Advanced','—'][+r.id.slice(1)%4])},{k:'uni',label:'University',w:200,r:r=>txtC(['Cairo University','Ain Shams University','Alexandria University','—'][+r.id.slice(1)%4])},
-   {k:'screen',label:'Screening Interviews',w:180,r:r=>txtC(+r.id.slice(1)%3?'Not scheduled':'28 Nov 2026')},{k:'mn',label:'Meetings Note',w:160,r:r=>txtC(+r.id.slice(1)%4?'—':'Asked about visa')},{k:'ln',label:'Lead Notes',w:140,r:noteC},
-   {k:'upd',label:'Last Update',sort:1,w:170,fv:r=>String(updOf(r).upd),r:r=>updC(updOf(r))},{k:'act',label:'Actions',sort:1,r:r=>actions(r.id,'openLead')}];
+   {k:'act',label:'Actions',sort:1,r:r=>actions(r.id,'openLead')}];
   const col=S.collapsed.leads;
   return `<div class="p-6 pb-8 tbl-page">${pageHead('Leads','','','leads')}${leadTabs()}
    ${col?'':`<div class="grid grid-cols-3 gap-6 mt-6">
@@ -1234,7 +1434,7 @@ function pgParts(){
   else content=tableHtml('parts',COLS[tab],rows,'clickable');
   const pills=`<div class="flex items-center gap-2 ml-2 flex-wrap">${['All programs',...P_PROGS].map((n,i)=>`<button class="pg-pill ${S.partPill===i?'on':''}" data-act="pill" data-i="${i}">${n}</button>`).join('')}</div>`;
   return `<div class="p-6 pb-8"><div class="flex items-center gap-3 h-10"><h1 class="text-xl font-semibold text-grey-1000 mr-1">Participants</h1>${pills}</div>
-   <div class="card mt-6 overflow-hidden"><div class="tabrow" role="tablist">${LC.map(k=>`<button role="tab" aria-selected="${tab===k}" class="${tab===k?'on':''}" data-act="plc" data-k="${k}">${k} (${cnt(k)})</button>`).join('')}</div>
+   <div class="card mt-6 overflow-hidden"><div class="tabrow" role="tablist">${LC.map(k=>`<button role="tab" aria-selected="${tab===k}" class="${tab===k?'on':''}" data-act="plc" data-k="${k}">${k}${tabN(cnt(k))}</button>`).join('')}</div>
    ${tb}${content}</div>
    <div class="text-xs text-grey-500 mt-3">Experiment: one page replaces Applications, Stages, Placements and All Participants. Sample data.</div></div>`;
 }
@@ -1323,7 +1523,7 @@ function proposalsTab(){
   const pills=[1,2,3,4,5].map(n=>`<button class="h-9 px-4 rounded-full text-sm transition ${pr.cur===n-1?'bg-primary-100 text-primary-1000 font-medium':'bg-white border border-primary-200 text-grey-700 hover:bg-primary-50'}" data-act="pCur" data-i="${n-1}" aria-pressed="${pr.cur===n-1}">Proposal ${n}</button>`).join('');
   const seg=['Programs','Compare'].map(t=>`<button class="h-9 px-4 rounded-full text-sm transition ${pr.tab===t?'bg-primary-100 text-primary-1000 font-medium':'bg-white border border-primary-200 text-grey-700 hover:bg-primary-50'}" data-act="pTab" data-t="${t}" aria-pressed="${pr.tab===t}">${t}</button>`).join('');
   const body=pr.tab==='Programs'?PROP_PROGRAMS.map(c=>propCard(c,pr)).join(''):
-   `<div class="rounded-xl border border-primary-200 bg-white overflow-x-auto"><table class="w-full text-sm"><thead><tr class="bg-primary-50 text-left text-grey-700"><th class="p-3 font-medium">Program</th><th class="p-3 font-medium">Tuition / year</th><th class="p-3 font-medium">Next intake</th><th class="p-3 font-medium">Application Fees</th><th class="p-3 font-medium">Your answer</th></tr></thead><tbody>${PROP_PROGRAMS.map(c=>`<tr class="border-t border-primary-100"><td class="p-3 text-grey-1000">MSc Mechanical Engineering · TUM${c.rec?' <span class="pill !h-6 !text-[11px] bg-secondary-100 text-secondary-1000">Recommended</span>':''}</td><td class="p-3">€150 fees / semester</td><td class="p-3">October 2027</td><td class="p-3">€150 fees</td><td class="p-3">${pr.applied[c.id]?'Applied':pr.ans[c.id]==='yes'?"I'm interested":pr.ans[c.id]==='no'?'Not for me':'—'}</td></tr>`).join('')}</tbody></table></div>`;
+   npTbl(['Program','Tuition / year','Next intake','Application Fees','Your answer'],PROP_PROGRAMS.map(c=>[`<span class="cell text-grey-1000">MSc Mechanical Engineering · TUM</span>${c.rec?' <span class="pill !h-6 !text-[11px] bg-secondary-100 text-secondary-1000">Recommended</span>':''}`,'€150 fees / semester','October 2027','€150 fees',pr.applied[c.id]?'Applied':pr.ans[c.id]==='yes'?"I'm interested":pr.ans[c.id]==='no'?'Not for me':'—']),{compact:1,key:'propCmp'});
   return `<div class="flex gap-4 items-start"><div class="flex-1 min-w-0">
    <div class="flex items-center gap-2 mb-4">${pills}<span class="flex-1"></span><button class="btn btn-o h-9 px-3 !text-sm" data-act="toast" data-msg="New Proposal — builder lives in Program Finder">${ic('note',16,'#FD8100')}New Proposal</button><button class="iconbtn" data-act="toast" data-msg="Proposal actions — GAP" aria-label="More">${kebab(18)}</button></div>
    <h2 class="text-3xl font-semibold text-grey-1000 mb-3">Engineering master's in Germany</h2>
@@ -1365,7 +1565,7 @@ const SA_LOCK='<svg class="inline-block ml-1.5 -mt-0.5 opacity-70" width="12" he
 const PF_ICON='<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#FD8100" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.66667 2.16797L2.75 4.91797C1.83333 5.41797 1.83333 6.7513 2.75 7.2513L7.66667 10.0013C8.08333 10.2513 8.83333 10.2513 9.25 10.0013L14.1667 7.2513C15.0833 6.7513 15.0833 5.41797 14.1667 4.91797L9.25 2.16797C8.83333 1.91797 8.08333 1.91797 7.66667 2.16797Z"/><path d="M4.66699 8.66797V11.7513C4.66699 12.5013 5.25033 13.3346 6.00033 13.5846L7.83366 14.168C8.16699 14.2513 8.66699 14.2513 9.00033 14.168"/><path d="M15.417 9.58203V6.33203"/><path d="M11.667 14.5013C11.667 15.2527 11.9655 15.9734 12.4969 16.5048C13.0282 17.0361 13.7489 17.3346 14.5003 17.3346C15.2518 17.3346 15.9724 17.0361 16.5038 16.5048C17.0351 15.9734 17.3337 15.2527 17.3337 14.5013C17.3337 13.7499 17.0351 13.0292 16.5038 12.4978C15.9724 11.9665 15.2518 11.668 14.5003 11.668C13.7489 11.668 13.0282 11.9665 12.4969 12.4978C11.9655 13.0292 11.667 13.7499 11.667 14.5013Z"/><path d="M18.3333 18.3333L16.5 16.5"/></svg>'; /* Figma 25094:404794 */
 const MOD_IC={ex:'<path d="M7.66667 2.16797L2.75 4.91797C1.83333 5.41797 1.83333 6.7513 2.75 7.2513L7.66667 10.0013C8.08333 10.2513 8.83333 10.2513 9.25 10.0013L14.1667 7.2513C15.0833 6.7513 15.0833 5.41797 14.1667 4.91797L9.25 2.16797C8.83333 1.91797 8.08333 1.91797 7.66667 2.16797Z"/><path d="M4.66699 8.66797V11.7513C4.66699 12.5013 5.25033 13.3346 6.00033 13.5846L7.83366 14.168C8.16699 14.2513 8.66699 14.2513 9.00033 14.168"/><path d="M15.417 9.58203V6.33203"/><path d="M12.083 13.5013H17.9163L16.083 11.668M17.9163 16.5013H12.083L13.9163 18.3346"/>',sa:'<path d="M7.66667 2.16797L2.75 4.91797C1.83333 5.41797 1.83333 6.7513 2.75 7.2513L7.66667 10.0013C8.08333 10.2513 8.83333 10.2513 9.25 10.0013L14.1667 7.2513C15.0833 6.7513 15.0833 5.41797 14.1667 4.91797L9.25 2.16797C8.83333 1.91797 8.08333 1.91797 7.66667 2.16797Z"/><path d="M4.66699 8.66797V11.7513C4.66699 12.5013 5.25033 13.3346 6.00033 13.5846L7.83366 14.168C8.16699 14.2513 8.66699 14.2513 9.00033 14.168"/><path d="M15.417 9.58203V6.33203"/><path d="M11.667 15.0013C11.667 15.8854 12.0182 16.7332 12.6433 17.3583C13.2684 17.9834 14.1163 18.3346 15.0003 18.3346C15.8844 18.3346 16.7322 17.9834 17.3573 17.3583C17.9825 16.7332 18.3337 15.8854 18.3337 15.0013C18.3337 14.1172 17.9825 13.2694 17.3573 12.6443C16.7322 12.0192 15.8844 11.668 15.0003 11.668C14.1163 11.668 13.2684 12.0192 12.6433 12.6443C12.0182 13.2694 11.667 14.1172 11.667 15.0013Z"/><path d="M11.667 15.0013H18.3337M15.0003 11.668C14.1087 12.5846 13.667 13.693 13.667 15.0013C13.667 16.3096 14.1087 17.418 15.0003 18.3346C15.892 17.418 16.3337 16.3096 16.3337 15.0013C16.3337 13.693 15.892 12.5846 15.0003 11.668Z"/>'}; /* Figma 25094:404811 / 25094:404850 */
 const modIc=(m,play)=>`<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="shrink-0 overflow-visible"><g class="${play?'mic-'+m:''}">${MOD_IC[m]}</g></svg>`;
-const coreModTabs=()=>{const pl=S.coreAnim;S.coreAnim=null;return `<div role="tablist" aria-label="Core application type" class="flex gap-6 px-6 bg-white border-b border-primary-200 shrink-0">${['ex','sa'].map(m=>{const on=(m==='sa')===isSA();return `<button role="tab" aria-selected="${on}" data-act="coreMod" data-m="${m}" class="relative h-16 px-3 inline-flex items-center gap-2 text-sm font-medium transition ${on?'text-primary-1000':'text-grey-600 hover:text-grey-900'}">${modIc(m,pl===m)}${m==='sa'?'Study Abroad Programs'+(S.saSub?'':SA_LOCK):'Exchange Programs'}${on?'<span class="absolute left-0 right-0 -bottom-px h-0.5 bg-primary-1000"></span>':''}</button>`}).join('')}</div>`};
+const coreModTabs=()=>{const pl=S.coreAnim;S.coreAnim=null;return `<div role="tablist" aria-label="Core application type" class="tabrow bg-white shrink-0">${['ex','sa'].map(m=>{const on=(m==='sa')===isSA();return `<button role="tab" aria-selected="${on}" data-act="coreMod" data-m="${m}" data-tico="1" class="${on?'on':''}">${modIc(m,pl===m)}${m==='sa'?'Study Abroad Programs'+(S.saSub?'':SA_LOCK):'Exchange Programs'}</button>`}).join('')}</div>`};
 function wizFrame(title,backAct,stepsHtml,body,footer){
   return `<div class="h-full flex flex-col"><div class="h-20 shrink-0 bg-white border-b border-primary-200 flex items-center justify-between px-6">
     <div class="flex items-center gap-3">${backAct?`<button class="p-1 rounded-lg hover:bg-primary-50 text-grey-1000" data-act="${backAct}" aria-label="Back">${ic('arrowL',22,'currentColor',1.8)}</button>`:''}<h1 class="text-2xl font-semibold text-grey-1000">${title}</h1></div>
@@ -1728,7 +1928,7 @@ const LN=['Khaled','Haddad','Adel','Fathy','Nabil','Samir','Tarek','Mostafa','Hu
 const PPL=Array.from({length:3000},(_,i)=>FN[i%30]+' '+LN[(i*7+Math.floor(i/30))%30]);
 const PRT=['Elif Campus German','','Travel Gates','','Global Bridge','','CIEE',''],ASG=['Mohamed Saeed','','Ahmad Al-Mashaikh','Saad Mohamed','','Aya Alaa','Ehab Mutaweaa'];
 const EX_STG=['Profile','Ticket','Interview','Visa','Travel'],SA_STG=['Profile','Shortlist','Applied','Offer','Visa','Travel']; /* GAP: SA program stages are per program; sample set */
-const SCH_ST=['Submitted','Under review','Offer','Rejected','Enrolled']; /* GAP: school-application statuses not in the spec */
+const UA_ST=['Shortlisted','Preparing','Submitted','Offer received','Offer accepted','Confirmed','Enrolled'],SCH_ST=[...UA_ST,'Closed']; /* University Applications statuses (research 23–25 Nov 2026) */
 const MAJ=[['MSc Mechanical Engineering','Master'],['BSc Computer Science','Bachelor'],['MBA','Master'],['Doctor of Medicine','Bachelor'],['MA Interior Design','Master'],['BSc Business Management','Bachelor'],['MSc Data Science','Master'],['BEng Civil Engineering','Bachelor']];
 const xmail=n=>n.toLowerCase().replace(/[^a-z]+/g,'.')+'@mail.com',xphone=i=>'+20 10'+String(44331656+i*7919).slice(0,8);
 const xsch=i=>SA_DATA.schools[i%SA_DATA.schools.length];
@@ -1772,7 +1972,7 @@ const ccC=cc=>`<span class="flex items-center gap-2 min-w-0">${flagSvg(cc,20)}<s
 const flagsC=ccs=>`<span class="flex items-center">${ccs.slice(0,3).map((c,i)=>`<span class="rounded-full ring-2 ring-white ${i?'-ml-1.5':''}" title="${esc(SA_DATA.c[c]||c)}">${flagSvg(c,22)}</span>`).join('')}${ccs.length>3?`<span class="pill !h-6 !px-2 bg-primary-100 text-grey-700 ml-1">+${ccs.length-3}</span>`:''}</span>`;
 const cntC=(n,cls)=>`<span class="pill !h-8 !px-3 !text-sm ${cls}">${n} ${ic('p2u',16)}</span>`;
 const PSTAT={Active:'bg-green-100 text-green-500',Draft:'bg-grey-100 text-grey-700',Closed:'bg-red-100 text-red-600'};
-const SST={Active:'bg-green-100 text-green-500',Draft:'bg-grey-100 text-grey-700',Closed:'bg-red-100 text-red-600',Submitted:'bg-blue-100 text-blue-700','Under review':'bg-yellow-100 text-yellow-800',Offer:'bg-green-100 text-green-500',Rejected:'bg-red-100 text-red-600',Enrolled:'bg-primary-100 text-primary-1000',Connected:'bg-green-100 text-green-500',Pending:'bg-yellow-100 text-yellow-800',Approved:'bg-green-100 text-green-500',Others:'bg-grey-100 text-grey-700','Partially Paid':'bg-yellow-100 text-yellow-800',Open:'bg-blue-100 text-blue-700',Paid:'bg-green-100 text-green-500',Overdue:'bg-red-100 text-red-600',Upcoming:'bg-secondary-100 text-secondary-1000'};
+const SST={Shortlisted:'bg-grey-100 text-grey-700',Preparing:'bg-yellow-100 text-yellow-800','Offer received':'bg-secondary-100 text-secondary-1000','Offer accepted':'bg-primary-100 text-primary-1000',Confirmed:'bg-green-100 text-green-700',Active:'bg-green-100 text-green-500',Draft:'bg-grey-100 text-grey-700',Closed:'bg-red-100 text-red-600',Submitted:'bg-blue-100 text-blue-700','Under review':'bg-yellow-100 text-yellow-800',Offer:'bg-green-100 text-green-500',Rejected:'bg-red-100 text-red-600',Enrolled:'bg-primary-100 text-primary-1000',Connected:'bg-green-100 text-green-500',Pending:'bg-yellow-100 text-yellow-800',Approved:'bg-green-100 text-green-500',Others:'bg-grey-100 text-grey-700','Partially Paid':'bg-yellow-100 text-yellow-800',Open:'bg-blue-100 text-blue-700',Paid:'bg-green-100 text-green-500',Overdue:'bg-red-100 text-red-600',Upcoming:'bg-secondary-100 text-secondary-1000'};
 const stC=v=>`<span class="pill ${SST[v]||'bg-grey-100 text-grey-700'}">${esc(v)}</span>`;
 const actDV=(id,view)=>`<div class="flex items-center gap-2"><button data-act="rowDel" data-id="${id}" class="p-1 rounded hover:bg-red-100" aria-label="Delete">${ic('trash',20,'#E02424')}</button><button data-act="${view}" data-id="${id}" class="p-1 rounded hover:bg-primary-100" aria-label="View">${ic('eye',20,'#584777')}</button></div>`;
 const actProg=(id)=>`<div class="flex items-center gap-2"><button data-act="toast" data-msg="Program duplicated (prototype)" class="p-1 rounded hover:bg-primary-100 tip" data-tip="Duplicate" aria-label="Duplicate">${ic('copy',20,'#584777')}</button><button data-act="progEdit" class="p-1 rounded hover:bg-primary-100 tip" data-tip="Edit" aria-label="Edit">${ic('edit',20,'#584777')}</button><button data-act="rowDel" data-id="${id}" class="p-1 rounded hover:bg-red-100 tip" data-tip="Delete" aria-label="Delete">${ic('trash',20,'#E02424')}</button></div>`;
@@ -1787,7 +1987,9 @@ function crumbHead(mod,page,progs,cur,act,key){
  PAGE_TB=(progs?tbChip(act,cur,cnt):'')+(key&&['ceApps','saApps','saSch','follow','leads'].includes(key)?`${dashBtn(key)}`:'');
  return ''}
 function statCards(items){return `<div class="card mt-6 grid overflow-hidden" style="grid-template-columns:repeat(${items.length},minmax(0,1fr))">${items.map(([l,v,u],i)=>`<div class="p-5 ${i?'border-l border-primary-200':''}"><div class="text-base font-semibold text-grey-1000">${l}</div><div class="text-[28px] font-medium text-primary-1000 leading-tight mt-1" data-count>${v}</div><div class="text-xs tracking-wide text-grey-600 mt-1">${u}</div></div>`).join('')}</div>`}
-function tabsRow(tabs,cur,act){return `<div class="tabrow" role="tablist">${tabs.map(t=>{const[l,n]=Array.isArray(t)?t:[t];return `<button role="tab" aria-selected="${cur===l}" class="${cur===l?'on':''}" data-act="${act}" data-v="${esc(l)}">${esc(l)}${n!=null?` (${n})`:''}</button>`}).join('')}</div>`}
+/* Tabs component: one look for every tab row. Count = orange number, no brackets. */
+const tabN=n=>n!=null&&n!==''?` <span class="tab-n">${n}</span>`:'';
+function tabsRow(tabs,cur,act){return `<div class="tabrow" role="tablist">${tabs.map(t=>{const[l,n]=Array.isArray(t)?t:[t];return `<button role="tab" aria-selected="${cur===l}" class="${cur===l?'on':''}" data-act="${act}" data-v="${esc(l)}">${esc(l)}${tabN(n)}</button>`}).join('')}</div>`}
 const fBadge=k=>{const n=(S.filt[k]&&S.filt[k]!=='All'?1:0)+colFCount(k)+(k==='leads'&&S.leadSource!=='All'?1:0);return n?`<span class="min-w-[20px] h-5 px-1.5 rounded-full bg-secondary-1000 text-white text-[11px] inline-flex items-center justify-center">${n}</span>`:''};
 function tbar(key,o={}){
  const n=S.tnew?0:S.sel[key].size;
@@ -1872,17 +2074,122 @@ function pgSaApps(){
  return `<div class="p-6 pb-8 tbl-page">${crumbHead('Study Abroad','Applications',SA_PROGS,S.sa.prog,'saProg','saApps')}
   ${S.collapsed.saApps?'':statCards([['Pending',all.filter(r=>r.status==='Pending').length,'APPLICATIONS'],['Approved',all.filter(r=>r.status==='Approved').length,'APPLICATIONS'],['Rejected',all.filter(r=>r.status==='Rejected').length,'APPLICATIONS'],['School Applications',S.T.saSch.filter(saProg).length,'SUBMITTED TO SCHOOLS']])}
   <div class="card mt-6 overflow-hidden">${tbar('saApps',{saved:1,filter:false,reminder:1,export:1,add:'Add',addAct:'addPart'})}${table('saApps',cols,rows,'clickable')}</div></div>`}
+/* ===== University Applications (School Applications) — research decisions 23–25 Nov 2026.
+   One row per application · own fixed status list (separate from stage) · Closed with a reason · Next action per row.
+   Visa and documents stay in the Tracker. Built from the shared tabs + table components. */
+const UA_DET={'Shortlisted':['Not started'],'Preparing':['Collecting documents','Ready to submit','On hold'],'Submitted':['Waiting for school','More info requested','Interview requested','Waitlisted'],'Offer received':['Waiting for student','Deferral requested'],'Offer accepted':['Deposit due'],'Confirmed':['Deposit paid','Confirmation document received'],'Enrolled':['Enrolment confirmed'],'Closed':['Rejected by school','Withdrawn by student','Declined by student','Accepted another offer','Deadline passed']};
+const UA_NEXT={'Shortlisted':'Start','Preparing':'Mark submitted','Submitted':'School decision','Offer received':'Student decision','Offer accepted':'Record deposit','Confirmed':'Add document','Enrolled':'Open','Closed':'Reopen'};
+const UA_CLS={'Shortlisted':'bg-grey-100 text-grey-700','Preparing':'bg-yellow-100 text-yellow-800','Submitted':'bg-blue-100 text-blue-700','Offer received':'bg-secondary-100 text-secondary-1000','Offer accepted':'bg-primary-100 text-primary-1000','Confirmed':'bg-green-100 text-green-700','Enrolled':'bg-green-100 text-green-700','Closed':'bg-grey-100 text-grey-700'};
+const UA_CUR={UK:'£',US:'$',USA:'$',DE:'€',NL:'€',FR:'€',IT:'€',ES:'€',HU:'€',CA:'CA$',AU:'A$'};
+const uaIso=d=>d.toISOString().slice(0,10);
+const uaAdd=n=>{const d=new Date();d.setDate(d.getDate()+n);return uaIso(d)};
+const uaDays=v=>Math.round((new Date(v+'T00:00')-new Date(new Date().toDateString()))/864e5);
+function uaSeed(){if(S.T.saSch._ua)return;const T=S.T.saSch,byName={};T.forEach(r=>(byName[r.name]=byName[r.name]||[]).push(r));
+ const W=[0,1,1,2,2,2,3,3,4,5,6,7];
+ T.forEach((r,i)=>{const st=SCH_ST[W[i%W.length]],cur=UA_CUR[r.cc]||'£',tu=12000+(i*733)%22000,grp=byName[r.name];
+  Object.assign(r,{status:st,detail:UA_DET[st][i%UA_DET[st].length],prio:grp.indexOf(r)+1,of:grp.length,cur,tuition:tu,fee:i%3?cur+(50+i%4*20):'',feeSt:'',ch:['Direct','ApplyBoard','Edvoy'][i%3],ref:'',
+   appDl:uaAdd(-5+i%60),sub:st==='Shortlisted'||st==='Preparing'?'':uaAdd(-(3+i%40)),comRate:i%4===3?'fixed':'10%',com:i%4===3?1500:Math.round(tu*0.1),comSt:'',offer:'',acceptBy:'',dep:0,depPaid:0,depDue:'',doc:'',docNo:'',enr:'',reason:'',was:'',closedOn:'',upd:['Today','Yesterday','2d ago','5d ago','1w ago'][i%5]});
+  if(st==='Submitted'){r.ref='REF-'+(48000+i);if(r.detail==='Interview requested')r.next=uaAdd(1+i%9),r.nextT='Interview';else if(r.detail==='More info requested')r.next=uaAdd(2+i%6),r.nextT='Info due';else r.next=uaAdd(10+i%30),r.nextT='Expected response'}
+  if(['Offer received','Offer accepted','Confirmed','Enrolled'].includes(st)){r.offer=i%2?'Unconditional':'Conditional';r.met=i%2?'':'1 of 3 met';r.offerOn=uaAdd(-(4+i%20));r.dep=Math.round(tu*0.15/100)*100}
+  if(st==='Offer received'){r.acceptBy=uaAdd(-1+i%20);if(r.detail==='Deferral requested')r.deferTo='Jan 2028'}
+  if(st==='Offer accepted'){r.accepted=uaAdd(-(2+i%8));r.depDue=uaAdd(-2+i%14)}
+  if(st==='Confirmed'||st==='Enrolled'){r.depPaid=r.dep;r.comSt='Can be claimed';if(st==='Enrolled'||r.detail==='Confirmation document received'){r.doc=r.cc==='UK'?'CAS':r.cc==='US'||r.cc==='USA'?'I-20':'Letter of acceptance';r.docNo=r.doc==='CAS'?'E4G'+(7000+i)+'Q1':r.doc==='I-20'?'N00'+(31000+i):''}}
+  if(st==='Enrolled'){r.enr=uaAdd(-(20+i%60));r.comSt=['Can be claimed','Invoice sent','Received'][i%3]}
+  if(st==='Closed'){r.reason=['English below requirement','Grades below requirement','','Accepted another offer',''][i%5];r.was=['Submitted','Offer received','Preparing'][i%3];r.closedOn=uaAdd(-(3+i%30));r.closedBy=ASG[i%5]}});
+ T._ua=1}
+const uaMoney=(r,v)=>v?r.cur+Number(v).toLocaleString():'—';
+const uaDate=v=>v?fcFmtDate(v):'—';
+const uaDl=r=>{let v,t;if(r.status==='Shortlisted'||r.status==='Preparing'){v=r.appDl;t='Application deadline'}else if(r.status==='Submitted'){v=r.next;t=r.nextT}else if(r.status==='Offer received'){v=r.acceptBy;t='Accept by'}else if(r.status==='Offer accepted'){v=r.depDue;t='Deposit due'}else if(r.status==='Confirmed'&&!r.doc){v=uaAdd(30);t='Confirmation document'}
+ if(!v)return dashC;const n=uaDays(v),c=n<0?'text-red-600 font-medium':n<=7?'text-secondary-1000 font-medium':'text-grey-900';return `<div class="leading-tight"><span class="cell ${c}">${uaDate(v)}</span><span class="sub2">${t}${n<0?' · overdue':n<=7?' · in '+n+'d':''}</span></div>`};
+const uaStC=r=>`<div class="leading-tight"><span class="pill !h-7 ${UA_CLS[r.status]}">${esc(r.status)}</span><span class="sub2 mt-1 truncate">${esc(r.detail)}${r.deferTo&&r.status!=='Closed'?' · Asked: '+r.deferTo:''}</span></div>`;
+const uaStu=r=>`<div class="leading-tight min-w-0"><span class="cell text-grey-900">${esc(r.name)}</span><span class="sub2">Priority ${r.prio} of ${r.of}</span></div>`;
+const uaPrg=r=>`<div class="leading-tight min-w-0"><span class="cell text-grey-900">${esc(r.major)}</span><span class="sub2 truncate">${esc(r.school)} · ${esc(SA_DATA?.c?.[r.cc]||r.cc)} · ${esc(r.level)}</span></div>`;
+const uaCom=r=>r.com?`<div class="leading-tight"><span class="cell tnum">${uaMoney(r,r.com)}</span><span class="sub2">${r.comSt||r.comRate+(r.comRate==='fixed'?'':' of tuition')}</span></div>`:dashC;
+const uaNx=r=>`<button class="btn ${r.status==='Enrolled'||r.status==='Closed'?'btn-w':'btn-p'} h-9 px-3 text-sm whitespace-nowrap" data-act="uaNext" data-id="${r.id}">${UA_NEXT[r.status]}</button>`;
+const uaDep=r=>r.dep?`<div class="leading-tight"><span class="cell tnum">${uaMoney(r,r.depPaid||r.dep)}</span><span class="sub2 ${r.depPaid?'':r.depDue&&uaDays(r.depDue)<0?'text-red-600':''}">${r.depPaid?'Paid':r.depDue&&uaDays(r.depDue)<0?'Overdue':'Due'}</span></div>`:dashC;
+const UA_C={
+ st:{k:'name',label:'Student',sort:1,w:200,r:uaStu},prog:{k:'major',label:'Program',sort:1,w:300,r:uaPrg},intake:{k:'intake',label:'Intake',sort:1,w:130,r:r=>txtC(r.intake)},
+ status:{k:'status',label:'Status',sort:1,w:240,r:uaStC},offer:{k:'offer',label:'Offer',w:170,r:r=>r.offer?`<div class="leading-tight"><span class="cell">${r.offer}</span>${r.met?`<span class="sub2">${r.met}</span>`:''}</div>`:dashC},
+ dl:{k:'dl',label:'Next deadline',w:190,r:uaDl},dep:{k:'dep',label:'Deposit',w:130,r:uaDep},upd:{k:'upd',label:'Last update',w:130,r:r=>txtC(r.upd)},
+ com:{k:'com',label:'Commission',w:150,r:uaCom},asg:{k:'assigned',label:'Assigned to',sort:1,w:180,r:asgC},nx:{k:'act',label:'Next action',w:170,r:uaNx},
+ adl:{k:'appDl',label:'Application deadline',sort:1,w:190,r:uaDl},tuit:{k:'tuition',label:'Tuition a year',sort:1,w:140,r:r=>txtC(uaMoney(r,r.tuition))},fee:{k:'fee',label:'Application fee',w:150,r:r=>r.fee?`<div class="leading-tight"><span class="cell">${r.fee}</span>${r.feeSt?`<span class="sub2">${r.feeSt}</span>`:''}</div>`:txtC('No fee')},
+ ch:{k:'ch',label:'Channel',sort:1,w:130,r:r=>txtC(r.ch)},ans:{k:'detail',label:'School answer so far',w:200,r:r=>txtC(r.detail)},sub:{k:'sub',label:'Submitted',sort:1,w:140,r:r=>txtC(uaDate(r.sub))},
+ wait:{k:'wait',label:'Days waiting',w:130,r:r=>r.sub?`<div class="leading-tight"><span class="cell tnum">${-uaDays(r.sub)}</span><span class="sub2">since submitted</span></div>`:dashC},ref:{k:'ref',label:'School reference',w:160,r:r=>txtC(r.ref||'—')},
+ od:{k:'offerOn',label:'Offer date',w:140,r:r=>txtC(uaDate(r.offerOn))},acc:{k:'accepted',label:'Accepted',w:140,r:r=>txtC(uaDate(r.accepted))},
+ doc:{k:'doc',label:'Confirmation document',w:200,r:r=>r.doc?`<div class="leading-tight"><span class="cell">${r.doc}</span><span class="sub2">${r.docNo||'No number'}</span></div>`:`<span class="cell text-secondary-1000">Not added</span>`},
+ enr:{k:'enr',label:'Enrolment confirmation',w:200,r:r=>`<div class="leading-tight"><span class="cell">${uaDate(r.enr)}</span><span class="sub2">Proof attached</span></div>`},t1:{k:'tuition',label:'Tuition year 1',w:150,r:r=>txtC(uaMoney(r,r.tuition))},
+ cl:{k:'closedOn',label:'Closed',sort:1,w:140,r:r=>txtC(uaDate(r.closedOn))},rsn:{k:'detail',label:'Reason',w:240,r:r=>`<div class="leading-tight"><span class="pill !h-7 bg-red-100 text-red-600">${esc(r.detail)}</span>${r.reason?`<span class="sub2 mt-1">${esc(r.reason)}</span>`:''}</div>`},
+ was:{k:'was',label:'Status when closed',w:170,r:r=>txtC(r.was)},by:{k:'closedBy',label:'Closed by',w:170,r:r=>txtC(r.closedBy||'—')},
+ rate:{k:'comRate',label:'Rate',w:110,r:r=>txtC(r.comRate)},amt:{k:'com',label:'Amount',sort:1,w:130,r:r=>txtC(uaMoney(r,r.com))},cst:{k:'comSt',label:'Commission status',w:180,r:r=>`<button class="pill !h-7 ${r.comSt==='Received'?'bg-green-100 text-green-700':r.comSt==='Invoice sent'?'bg-blue-100 text-blue-700':'bg-secondary-100 text-secondary-1000'}" data-act="uaCom" data-id="${r.id}" title="Move to the next commission status">${r.comSt}</button>`}};
+const UA_TABS={All:['status','offer','dl','dep','upd'],Shortlisted:['adl','tuit','fee','ch'],Preparing:['adl','ch','fee','upd'],Submitted:['ans','sub','wait','dl','ref'],'Offer received':['offer','od','dl','dep'],'Offer accepted':['acc','dep','dl','offer'],Confirmed:['dep','doc','offer','upd'],Enrolled:['enr','doc','t1','upd'],Closed:['cl','rsn','was','by'],Commission:['status','t1','rate','amt','cst']};
 function pgSaSch(){
- const rows=tRows('saSch',saProg,['name','code','school','major']);LIST.saSch=()=>tRows('saSch',saProg,['name','code','school','major']);const all=S.T.saSch.filter(saProg);
- const cols=[{k:'name',label:'Student',sort:1,w:190,r:nmC},{k:'school',label:'School',sort:1,w:260,r:schC},{k:'cc',label:'Country',sort:1,w:160,r:r=>ccC(r.cc)},{k:'major',label:'Major',sort:1,w:230,r:r=>`<div class="leading-tight min-w-0"><span class="cell text-grey-900">${esc(r.major)}</span><span class="sub2">${esc(r.level)}</span></div>`},{k:'intake',label:'Intake',sort:1,w:120,r:r=>txtC(r.intake)},{k:'status',label:'Status',sort:1,w:140,r:r=>`<button class="cell-dd !px-0" data-act="schStat" data-id="${r.id}" aria-haspopup="menu" aria-expanded="false">${stC(r.status)}<span class="chev">${ic('chevD',16)}</span></button>`},{k:'assigned',label:'Assigned To',sort:1,w:190,r:asgC},{k:'submitted',label:'Submitted',sort:1,w:140,r:r=>txtC(r.submitted)},{k:'act',label:'Actions',w:110,r:r=>actDV(r.id,'openPart')}];
- const c=s=>all.filter(r=>r.status===s).length;
+ uaSeed();S.ua??={tab:'All',qf:null};const tab=S.ua.tab,qf=S.ua.qf;
+ const base=S.T.saSch.filter(saProg);
+ const inTab=(r,t)=>t==='All'?r.status!=='Closed':t==='Commission'?['Confirmed','Enrolled'].includes(r.status):r.status===t;
+ const qfn={wait:r=>r.status==='Offer received',week:r=>{const v=r.status==='Submitted'?r.next:r.status==='Offer received'?r.acceptBy:r.status==='Offer accepted'?r.depDue:['Shortlisted','Preparing'].includes(r.status)?r.appDl:null;return v&&uaDays(v)>=0&&uaDays(v)<=7},
+  over:r=>{const v=r.status==='Offer received'?r.acceptBy:r.status==='Offer accepted'?r.depDue:['Shortlisted','Preparing'].includes(r.status)?r.appDl:null;return v&&uaDays(v)<0}};
+ const pre=r=>saProg(r)&&inTab(r,tab)&&(!qf||qfn[qf](r));
+ const rows=tRows('saSch',pre,['name','school','major','intake','status','detail']);LIST.saSch=()=>tRows('saSch',pre,['name','school','major','intake','status','detail']);
+ const cols=['st','prog','intake',...UA_TABS[tab],...(tab==='Commission'?[]:['com']),'asg','nx'].map(k=>UA_C[k]);
+ const tabs=['All',...UA_ST,'Closed','Commission'].map(t=>[t,base.filter(r=>inTab(r,t)).length]);
+ const c=s=>base.filter(r=>r.status===s).length;
+ const chip=(k,l)=>`<button class="h-8 px-3 rounded-full border text-sm ${qf===k?'border-primary-1000 bg-primary-100 text-primary-1000 font-medium':'border-primary-200 bg-white text-grey-700 hover:bg-primary-50'}" data-act="uaQf" data-v="${k}" aria-pressed="${qf===k}">${l} <span class="tab-n">${base.filter(qfn[k]).length}</span></button>`;
  return `<div class="p-6 pb-8 tbl-page">${crumbHead('Study Abroad','School Applications',SA_PROGS,S.sa.prog,'saProg','saSch')}
-  ${S.collapsed.saSch?'':statCards([['Submitted',c('Submitted'),'APPLICATIONS'],['Under review',c('Under review'),'APPLICATIONS'],['Offers',c('Offer'),'APPLICATIONS'],['Enrolled',c('Enrolled'),'STUDENTS']])}
-  <div class="card mt-6 overflow-hidden">${tbar('saSch',{saved:1,export:1,add:'Add',addAct:'toast'})}${table('saSch',cols,rows,'clickable')}</div></div>`}
+  ${S.collapsed.saSch?'':statCards([['Submitted',c('Submitted'),'APPLICATIONS'],['Offers waiting',c('Offer received'),'APPLICATIONS'],['Confirmed',c('Confirmed'),'APPLICATIONS'],['Enrolled',c('Enrolled'),'STUDENTS']])}
+  <div class="card mt-6 overflow-hidden">${tabsRow(tabs,tab,'uaTab')}
+   <div class="px-4 pt-4 flex items-center gap-2 flex-wrap"><span class="text-sm text-grey-600 mr-1">Quick filters</span>${chip('wait','Offer waiting for student')}${chip('week','Deadline this week')}${chip('over','Overdue')}</div>
+   ${tbar('saSch',{saved:1,export:1,add:'Add application',addAct:'uaAdd'})}${table('saSch',cols,rows,'clickable')}</div></div>`}
+/* dialogs — every date is a date picker; option groups are single-choice buttons */
+const uaIn=(t,v='',a='')=>`<input type="${t}" value="${esc(v)}" ${a} class="h-11 w-full rounded-xl border border-primary-200 bg-white px-3 text-sm text-grey-900 focus:border-primary-1000 focus:ring-0">`;
+const uaF=(l,h)=>`<label class="flex flex-col gap-1.5 text-sm font-medium text-grey-900">${l}${h}</label>`;
+const uaOpts=(name,vals,cur)=>`<div class="flex flex-wrap gap-2" data-ug="${name}" data-v="${esc(cur??vals[0])}">${vals.map(v=>`<button type="button" class="ua-opt h-9 px-3 rounded-xl border text-sm ${v===(cur??vals[0])?'border-primary-1000 bg-primary-100 text-primary-1000 font-medium':'border-primary-200 bg-white text-grey-800 hover:bg-primary-50'}" data-act="uaOpt" data-v="${esc(v)}">${esc(v)}</button>`).join('')}</div>`;
+const uaFile=t=>`<button type="button" class="h-11 w-full rounded-xl border border-dashed border-primary-300 bg-primary-30 px-3 text-sm text-grey-700 text-left inline-flex items-center gap-2" data-act="toast" data-msg="File picker — not part of this prototype">${ic('paperclip',16)}${esc(t)}</button>`;
+const uaNote=t=>`<div class="rounded-xl bg-primary-50 px-3 py-2.5 text-xs text-grey-700">${t}</div>`;
+const uaV=n=>$(`#layer [data-ug="${n}"]`)?.dataset.v;const uaVal=i=>$(`#layer [data-uf="${i}"]`)?.value||'';
+const uaGrid=(...h)=>`<div class="grid grid-cols-2 gap-3">${h.join('')}</div>`;
+function uaSave(r,patch,msg){const prev={...r};const others=patch._others;delete patch._others;Object.assign(r,patch,{upd:'Just now'});render();
+ undoToast(msg,()=>{Object.assign(r,prev);(others||[]).forEach(([o,p])=>Object.assign(o,p));render()})}
+const UA_SUB={
+ Offer:r=>uaF('Offer type',uaOpts('otype',['Conditional','Unconditional']))+uaGrid(uaF('Decision date',uaIn('date',uaAdd(0),'data-uf="od"')),uaF('Student must accept by',uaIn('date',uaAdd(21),'data-uf="ab"')))+uaGrid(uaF('Deposit amount',uaIn('number',Math.round(r.tuition*0.15/100)*100,'data-uf="dep"')),uaF('Deposit due',uaIn('date',uaAdd(45),'data-uf="dd"')))+uaF('Conditions, with due dates',`<textarea class="w-full rounded-xl border border-primary-200 px-3 py-2 text-sm" rows="2" data-uf="cond">IELTS 6.5 by 1 Jun 2027</textarea>`)+uaF('Offer letter (required)',uaFile('offer-letter.pdf'))+`<label class="flex items-center gap-2 text-sm text-grey-800"><input type="checkbox" class="ck" checked> Show the offer and letter to the student in the portal</label>`,
+ Waitlisted:()=>uaF('Review date, if the school gave one',uaIn('date','','data-uf="rd"')),
+ 'Interview requested':()=>uaF('Interview date and time',uaIn('datetime-local','','data-uf="iv"'))+uaNote('Creates an appointment for the student.'),
+ 'More info requested':()=>uaF('What the school asked for',`<textarea class="w-full rounded-xl border border-primary-200 px-3 py-2 text-sm" rows="2"></textarea>`)+uaF('Due date',uaIn('date','','data-uf="md"')),
+ 'Deferred by school':()=>uaF('New intake',uaOpts('ni',['Jan 2028','Sep 2028'])),
+ Rejected:()=>uaF('Reason',uaOpts('rr',['Grades below requirement','English below requirement','Program full','Documents incomplete','Applied too late','No reason given']))+uaF('Note',`<textarea class="w-full rounded-xl border border-primary-200 px-3 py-2 text-sm" rows="2"></textarea>`)+uaF('Rejection letter (optional)',uaFile('Attach letter')),
+ Accept:r=>{const o=S.T.saSch.filter(a=>a.name===r.name&&a!==r&&!['Closed','Enrolled'].includes(a.status)).length;return uaF('Decision date',uaIn('date',uaAdd(0)))+(o?uaNote(`${esc(r.name)} has ${o} other open application${o>1?'s':''}. What should happen to ${o>1?'them':'it'}?`)+uaOpts('others',['Withdraw them','Keep as backup']):'')},
+ Decline:()=>uaF('Reason',`<textarea class="w-full rounded-xl border border-primary-200 px-3 py-2 text-sm" rows="2"></textarea>`)+uaNote('Adds a to-do: inform the school.'),
+ Defer:()=>uaF('Requested intake',uaOpts('di',['Jan 2028','Sep 2028']))+uaF('Reason',`<textarea class="w-full rounded-xl border border-primary-200 px-3 py-2 text-sm" rows="2"></textarea>`)};
+function uaNext(r){const s=r.status;$('#layer').dataset.uaid=r.id;
+ if(s==='Shortlisted')return uaSave(r,{status:'Preparing',detail:'Collecting documents'},`${r.name}: application started`);
+ if(s==='Preparing')return modal({wide:1,title:'Mark submitted',body:`<div class="flex flex-col gap-4">${uaGrid(uaF('Submitted on',uaIn('date',uaAdd(0),'data-uf="so"')),uaF('Response expected',uaIn('date',uaAdd(45),'data-uf="re"')))}${uaGrid(uaF('Channel',uaOpts('ch',['Direct','ApplyBoard','Edvoy'],r.ch)),uaF('School reference',uaIn('text','','data-uf="ref" placeholder="e.g. ASU-77120"')))}${r.fee?uaF(`Application fee of ${r.fee} charged by the school`,uaOpts('fee',['Paid by student','Paid by agency','Not paid yet','Waived']))+uaNote('Most schools only start reviewing once the fee is paid.'):''}${uaF('Submission proof',uaFile('Attach proof'))}</div>`,
+   actions:[{label:'Cancel'},{label:'Mark submitted',cls:'btn-p',fn:()=>uaSave(r,{status:'Submitted',detail:'Waiting for school',sub:uaVal('so')||uaAdd(0),next:uaVal('re'),nextT:'Expected response',ch:uaV('ch'),ref:uaVal('ref')||'—',feeSt:r.fee?uaV('fee'):''},`${r.name}: submitted`)}]});
+ if(s==='Submitted')return modal({wide:1,title:'School decision',body:`<div class="flex flex-col gap-4">${uaF('What did the school answer?',uaOpts('sd',['Offer','Waitlisted','Interview requested','More info requested','Deferred by school','Rejected']))}<div class="flex flex-col gap-4" data-usub="sd">${UA_SUB.Offer(r)}</div></div>`,
+   actions:[{label:'Cancel'},{label:'Save',cls:'btn-p',fn:()=>{const v=uaV('sd');
+    if(v==='Offer'){const t=uaV('otype');uaSave(r,{status:'Offer received',detail:'Waiting for student',offer:t,met:t==='Conditional'?'0 of 1 met':'',offerOn:uaVal('od'),acceptBy:uaVal('ab'),dep:+uaVal('dep')||0,depDue:uaVal('dd')},`${r.name}: offer recorded`)}
+    else if(v==='Rejected')uaSave(r,{status:'Closed',detail:'Rejected by school',reason:uaV('rr'),was:'Submitted',closedOn:uaAdd(0),closedBy:'You'},`${r.name}: closed — rejected by school`);
+    else if(v==='Waitlisted')uaSave(r,{detail:'Waitlisted',next:uaVal('rd'),nextT:'School review'},`${r.name}: waitlisted`);
+    else if(v==='Interview requested')uaSave(r,{detail:'Interview requested',next:(uaVal('iv')||'').slice(0,10),nextT:'Interview'},`${r.name}: interview requested`);
+    else if(v==='More info requested')uaSave(r,{detail:'More info requested',next:uaVal('md'),nextT:'Info due'},`${r.name}: more info requested`);
+    else uaSave(r,{detail:'Deferred by school',intake:uaV('ni')},`${r.name}: deferred to ${uaV('ni')}`)}}]});
+ if(s==='Offer received'){if(r.detail==='Deferral requested')return modal({wide:1,title:'Deferral answer',body:`<div class="flex flex-col gap-4">${uaNote(`Asked to move to <b>${esc(r.deferTo||'')}</b>.`)}${uaF('What did the school answer?',uaOpts('da',['Approved','Rejected','Student cancelled']))}</div>`,
+   actions:[{label:'Cancel'},{label:'Save',cls:'btn-p',fn:()=>{const v=uaV('da');v==='Approved'?uaSave(r,{intake:r.deferTo,wasIntake:r.intake,detail:'Waiting for student',deferTo:''},`${r.name}: deferral approved — intake ${r.deferTo}`):uaSave(r,{detail:'Waiting for student',deferTo:''},`${r.name}: deferral ${v==='Rejected'?'rejected':'cancelled'}`)}}]});
+  return modal({wide:1,title:'Student decision',body:`<div class="flex flex-col gap-4">${uaF('What did the student decide?',uaOpts('stdc',['Accept','Decline','Defer']))}<div class="flex flex-col gap-4" data-usub="stdc">${UA_SUB.Accept(r)}</div></div>`,
+   actions:[{label:'Cancel'},{label:'Save',cls:'btn-p',fn:()=>{const v=uaV('stdc');
+    if(v==='Accept'){const others=uaV('others')==='Withdraw them'?S.T.saSch.filter(a=>a.name===r.name&&a!==r&&!['Closed','Enrolled'].includes(a.status)):[];const back=others.map(o=>[o,{...o}]);others.forEach(o=>Object.assign(o,{was:o.status,status:'Closed',detail:'Accepted another offer',reason:'',closedOn:uaAdd(0),closedBy:'You'}));uaSave(r,{status:'Offer accepted',detail:'Deposit due',accepted:uaAdd(0),depDue:r.depDue||uaAdd(30),_others:back},`${r.name}: offer accepted${others.length?` · ${others.length} other closed`:''}`)}
+    else if(v==='Decline')uaSave(r,{status:'Closed',detail:'Declined by student',was:'Offer received',closedOn:uaAdd(0),closedBy:'You'},`${r.name}: offer declined`);
+    else uaSave(r,{detail:'Deferral requested',deferTo:uaV('di')},`${r.name}: deferral requested`)}}]})}
+ if(s==='Offer accepted')return modal({wide:1,title:'Record deposit',body:`<div class="flex flex-col gap-4">${uaGrid(uaF('Amount paid ('+r.cur+')',uaIn('number',r.dep,'data-uf="amt"')),uaF('Paid on',uaIn('date',uaAdd(0))))}${uaF('Method',uaOpts('pm',['Bank transfer','Card','Other']))}${uaF('Payment proof (optional)',uaFile('Attach receipt'))}${uaNote('Paying the deposit confirms the place. No signed offer is needed.')}</div>`,
+   actions:[{label:'Cancel'},{label:'Record deposit',cls:'btn-p',fn:()=>{const a=+uaVal('amt')||0;a>=r.dep?uaSave(r,{status:'Confirmed',detail:'Deposit paid',depPaid:a,comSt:'Can be claimed'},`${r.name}: deposit recorded — confirmed`):uaSave(r,{depPaid:a,detail:'Deposit due'},`${r.name}: part payment recorded`)}}]});
+ if(s==='Confirmed'){if(r.doc)return modal({wide:1,title:'Mark enrolled',body:`<div class="flex flex-col gap-4">${uaGrid(uaF('Enrolment date',uaIn('date',uaAdd(0),'data-uf="ed"')),uaF('Student number',uaIn('text')))}${uaF('Enrolment proof',uaFile('Attach proof'))}</div>`,actions:[{label:'Cancel'},{label:'Mark enrolled',cls:'btn-p',fn:()=>uaSave(r,{status:'Enrolled',detail:'Enrolment confirmed',enr:uaVal('ed')||uaAdd(0)},`${r.name}: enrolled`)}]});
+  const def=r.cc==='UK'?'CAS (UK)':r.cc==='US'||r.cc==='USA'?'I-20 (USA)':r.cc==='AU'?'CoE (Australia)':'Letter of acceptance';
+  return modal({wide:1,title:'Add confirmation document',body:`<div class="flex flex-col gap-4">${uaF('Type',uaOpts('dt',['I-20 (USA)','CAS (UK)','CoE (Australia)','Letter of acceptance','Enrolment confirmation','Other'],def))}${uaF('Number (CAS number, SEVIS ID or CoE number)',uaIn('text','','data-uf="dn" placeholder="Required for CAS, I-20 and CoE"'))}${uaGrid(uaF('Issued on',uaIn('date',uaAdd(0))),uaF('File',uaFile('Attach document')))}</div>`,
+   actions:[{label:'Cancel'},{label:'Save document',cls:'btn-p',fn:()=>{const t=uaV('dt'),n=uaVal('dn');if(/CAS|I-20|CoE/.test(t)&&!n){toast('Enter the document number');throw 'keep'}uaSave(r,{doc:t.replace(/ \(.*\)/,''),docNo:n,detail:'Confirmation document received'},`${r.name}: ${t.replace(/ \(.*\)/,'')} added`)}}]})}
+ if(s==='Closed')return uaSave(r,{status:r.was||'Submitted',detail:UA_DET[r.was||'Submitted'][0]},`${r.name}: reopened`);
+ H.openPart?.({dataset:{id:r.id}})}
 function pgSaTrack(){return trackPage('Study Abroad','saTrack',SA_STG,SA_PROGS,S.sa.prog,'saProg',1)}
 /* ---- Schools */
 S.schOpen=new Set();
-const schTabs=cur=>`<div class="tabrow" role="tablist" aria-label="Schools and majors">${[['Schools','sa/schools',S.T.schools.length],['Majors','sa/majors',S.T.majors.length]].map(([l,h,n])=>`<button role="tab" aria-selected="${cur===h}" class="${cur===h?'on':''}" data-act="schTab" data-r="${h}">${l} <span class="text-secondary-1000 font-normal">${n}</span></button>`).join('')}</div>`;
+const schTabs=cur=>`<div class="tabrow" role="tablist" aria-label="Schools and majors">${[['Schools','sa/schools',S.T.schools.length],['Majors','sa/majors',S.T.majors.length]].map(([l,h,n])=>`<button role="tab" aria-selected="${cur===h}" class="${cur===h?'on':''}" data-act="schTab" data-r="${h}">${l}${tabN(n)}</button>`).join('')}</div>`;
 function pgSchools(){
  delete ROW_AFTER.schools;
  const rows=tRows('schools',null,['name','city']);LIST.schools=()=>tRows('schools',null,['name','city']);
@@ -1899,15 +2206,15 @@ function pgMajors(){
   <div class="card mt-6 overflow-hidden">${schTabs('sa/majors')}${S.majSchool?`<div class="px-6 pt-4 flex items-center gap-2 text-sm text-grey-700">School:<span class="pill !h-8 !text-sm bg-primary-100 text-primary-1000 inline-flex items-center gap-1">${esc(S.majSchool)}<button class="ml-1 inline-flex" data-act="clrMajSchool" aria-label="Clear school filter">${ic('x',14)}</button></span></div>`:''}${tbar('majors',{export:1,add:'Add Major',addAct:'goCatalog'})}${table('majors',cols,rows,'clickable')}</div></div>`}
 
 /* ---- Leads · Follow Ups (live: /leads/follow-ups) */
-const leadTabs=()=>`<div class="tabrow" role="tablist">${[['Leads','leads',S.leads.length],['Follow-ups','leads/follow-ups',S.T.follow.filter(r=>!r.resolved).length]].map(([l,h,n])=>`<button role="tab" aria-selected="${route===h}" class="${route===h?'on':''}" data-act="goRoute" data-r="${h}">${l} (${n})</button>`).join('')}</div>`;
+const leadTabs=()=>`<div class="tabrow" role="tablist">${[['Leads','leads',S.leads.length],['Follow-ups','leads/follow-ups',S.T.follow.filter(r=>!r.resolved).length]].map(([l,h,n])=>`<button role="tab" aria-selected="${route===h}" class="${route===h?'on':''}" data-act="goRoute" data-r="${h}">${l}${tabN(n)}</button>`).join('')}</div>`;
 const leadSeg=()=>`<div class="flex p-1 rounded-xl border border-primary-200 bg-white ml-2">${[['Leads','leads'],['Follow Ups','leads/follow-ups']].map(([l,h])=>`<a href="#${h}" class="h-8 px-3 rounded-lg text-sm font-medium inline-flex items-center ${route===h?'bg-primary-100 text-primary-1000':'text-grey-600 hover:text-primary-1000'}">${l}</a>`).join('')}</div>`;
 function pgFollow(){
- const rows=tRows('follow',null);LIST.follow=()=>tRows('follow',null);
+ S.T.follow.forEach((r,i)=>{if(r.screen===undefined){r.screen=i%3===2?'':'2026-11-'+String(26+i%5).padStart(2,'0');r.mn=i%4?'':'Asked about the visa interview dates.'}});const rows=tRows('follow',null);LIST.follow=()=>tRows('follow',null);
  const fc=(l,v,c,i)=>`<div class="card !rounded-2xl p-4 flex items-start justify-between"><div><div class="text-sm text-grey-700">${l}</div><div class="text-[28px] font-semibold leading-tight mt-2" style="color:${c}" data-count>${v}</div></div><span class="w-10 h-10 rounded-xl bg-primary-100 text-primary-1000 flex items-center justify-center">${ic(i,22,'#5B31AA')}</span></div>`;
- const cols=[{k:'name',label:'Name',sort:1,w:170,r:r=>`<div class="leading-tight min-w-0"><span class="cell text-grey-900">${esc(r.name)}</span><span class="sub2">LEV-${r.id.slice(2)}</span></div>`},{k:'email',label:'Email',sort:1,w:200,r:r=>txtC(r.email)},{k:'phone',label:'Phone Number',sort:1,w:170,r:r=>txtC(r.phone)},
-  {k:'assigned',label:'Assignee to',w:190,r:asgC},{k:'program',label:'Program',w:180,r:r=>r.id.slice(-1)%3===1?dashC:`<span class="flex items-center gap-1"><span class="cell">${esc(r.program)}</span>${r.id.slice(-1)%3===0?`<span class="text-grey-600">${ic('chevD',14)}</span>`:''}</span>`},
-  {k:'screen',label:'Screening Interviews',w:190,r:()=>txtC('22 Dec, 2024')},{k:'mn',label:'Meeting Notes',w:150,r:()=>`<button class="p-1 rounded hover:bg-primary-100" data-act="toast" data-msg="Meeting notes — not part of this flow" aria-label="Meeting notes">${ic('note',20,'#5B31AA')}</button>`},
-  {k:'ln',label:'Lead Notes',w:130,r:noteC},{k:'rank',label:'Ranks',sort:1,w:130,r:r=>rankTag(r.rank)},{k:'lstatus',label:'Lead Status',sort:1,w:150,r:r=>stC(r.lstatus)},{k:'channel',label:'Channel',sort:1,w:130,r:r=>txtC(r.channel)},{k:'resolvedBy',label:'Resolved By',sort:1,w:160,r:r=>r.resolvedBy&&r.resolvedBy!=='—'?`<span class="flex items-center gap-2">${avatar(r.resolvedBy,20)}<span class="cell">${esc(r.resolvedBy)}</span></span>`:dashC},{k:'resolvedAt',label:'Resolved At',sort:1,w:150,r:r=>txtC(r.resolvedAt)},{k:'fstat',label:'Follow Up Status',sort:1,w:170,r:r=>fuStC(r.fstat)},{k:'l',label:'Labels',w:170,r:lblC},{k:'upd',label:'Last Update',sort:1,w:170,r:r=>typeof r.upd==='number'?updC(r):txtC(r.upd)},{k:'act',label:'Actions',w:110,r:r=>`<div class="flex items-center gap-2"><button data-act="openLead" data-id="${r.id}" class="p-1 rounded hover:bg-primary-100" aria-label="View">${ic('eye',20,'#584777')}</button><button data-act="rowDel" data-id="${r.id}" class="p-1 rounded hover:bg-red-100" aria-label="Delete">${ic('trash',20,'#E02424')}</button></div>`}];
+ const cols=[{k:'name',label:'Name',sort:1,w:170,r:r=>`<div class="leading-tight min-w-0"><span class="cell text-grey-900">${esc(r.name)}</span><span class="sub2">LEV-${r.id.slice(2)}</span></div>`},{k:'email',label:'Email',sort:1,w:250,r:r=>fcell(r,'email')},{k:'phone',label:'Phone Number',sort:1,w:230,r:r=>fcell(r,'phone')},
+  {k:'assigned',label:'Assignee to',w:190,r:asgC},{k:'program',label:'Program',w:220,r:r=>fcell(r,'program')},
+  {k:'screen',label:'Screening Interviews',w:190,r:r=>fcell(r,'screen')},{k:'mn',label:'Meetings Note',w:220,r:r=>fcell(r,'mn')},
+  {k:'ln',label:'Lead Notes',w:130,r:noteC},{k:'rank',label:'Ranks',sort:1,w:130,r:r=>fcell(r,'rank')},{k:'lstatus',label:'Lead Status',sort:1,w:160,r:r=>fcell(r,'lstatus')},{k:'channel',label:'Channel',sort:1,w:130,r:r=>txtC(r.channel)},{k:'resolvedBy',label:'Resolved By',sort:1,w:160,r:r=>r.resolvedBy&&r.resolvedBy!=='—'?`<span class="flex items-center gap-2">${avatar(r.resolvedBy,20)}<span class="cell">${esc(r.resolvedBy)}</span></span>`:dashC},{k:'resolvedAt',label:'Resolved At',sort:1,w:150,r:r=>txtC(r.resolvedAt)},{k:'fstat',label:'Follow Up Status',sort:1,w:170,r:r=>fcell(r,'fstat')},{k:'l',label:'Labels',w:170,r:lblC},{k:'upd',label:'Last Update',sort:1,w:170,r:r=>typeof r.upd==='number'?updC(r):txtC(r.upd)},{k:'act',label:'Actions',w:110,r:r=>`<div class="flex items-center gap-2"><button data-act="openLead" data-id="${r.id}" class="p-1 rounded hover:bg-primary-100" aria-label="View">${ic('eye',20,'#584777')}</button><button data-act="rowDel" data-id="${r.id}" class="p-1 rounded hover:bg-red-100" aria-label="Delete">${ic('trash',20,'#E02424')}</button></div>`}];
  return `<div class="p-6 pb-8 tbl-page">${pageHead('Leads','','','follow')}${leadTabs()}
   ${S.collapsed.follow?'':`<div class="grid grid-cols-4 gap-6 mt-4">${fc('Today',20,'#0E9F6E','user')}${fc('Tomorrow',92,'#FDBA3B','activity')}${fc('This Week',92,'#7C5ABB','clock')}${fc('Overdue',450,'#F05252','p2u')}</div>`}
   <div class="card mt-4 overflow-hidden">${toolbar('follow',{addLabel:'',addAct:'',searchPh:'Search ..'}).replace(/<div class="ml-auto flex items-center gap-3 shrink-0">[\s\S]*<\/div><\/div>$/,`<div class="ml-auto flex items-center gap-3 shrink-0"><button class="iconbtn" data-act="colSet" data-k="${'follow'}" aria-label="Table settings" title="Table settings">${vx('row-horizontal',22)}</button></div></div>`)}${table('follow',cols,rows,'clickable')}</div></div>`}
@@ -1969,7 +2276,7 @@ function pgLead(){
  }else if(L.tab==='Programs Interested'){
   const rows=[...S.T.progEx.slice(0,2),S.T.progSa[0]];
   body=`<div class="card !rounded-xl overflow-hidden"><div class="p-4 flex items-center justify-between"><h2 class="text-xl font-medium text-grey-1000">Interested Programs</h2><button class="btn btn-w h-10 px-4 !border-secondary-300" data-act="toast" data-msg="Export started">${ic('export',18,'#FD8100')}Export</button></div>
-   <div class="overflow-x-auto"><table class="tbl"><thead><tr>${['Program','Status','Start Date','End Date','Stages Number','Responses','Actions'].map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr><td>${nmC(r)}</td><td>${stC(r.status)}</td><td>${txtC(r.start)}</td><td>${txtC(r.deadline)}</td><td>${r.stages}</td><td>${cntC(r.responses,'bg-secondary-100 text-secondary-1000')}</td><td><button class="p-1 rounded hover:bg-primary-100" data-act="toast" data-msg="Removed from interested programs (prototype)" aria-label="Remove">${ic('trash',20,'#E02424')}</button></td></tr>`).join('')}</tbody></table></div>${pager(rows.length)}</div>`;
+   ${npTbl(['Program','Status','Start Date','End Date','Stages Number','Responses','Actions'],rows.map(r=>[nmC(r),stC(r.status),txtC(r.start),txtC(r.deadline),`<span class="tnum">${r.stages}</span>`,cntC(r.responses,'bg-secondary-100 text-secondary-1000'),`<button class="p-1 rounded hover:bg-primary-100" data-act="toast" data-msg="Removed from interested programs (prototype)" aria-label="Remove">${ic('trash',20,'#E02424')}</button>`]),{bare:1,key:'profInt'})}</div>`;
  }else if(L.tab==='Appointments')body=apptTab(L.ap||(L.ap={apTab:'Upcoming'}),S.profile.appts.slice(0,3),'Appointments');
  else if(L.tab==='Documents')body=docsBlock(L);
  else if(L.tab==='Tasks')body=notesTasks(L);
@@ -2010,7 +2317,7 @@ function exProfBody(p){const st=S.pp;
  case 'Payments':{const inv=[['#INV-26-0030','02 Nov 2026','WT USA','2878.00','2678.00','Partially Paid'],['#INV-26-0026','22 Oct 2026','English in UK','200.00','9.00','Partially Paid'],['#INV-26-0020','11 May 2026','Camp Counselor','790.00','790.00','Open'],['#INV-25-0008','08 Sep 2025','Camp Counselor','890.00','0.00','Paid']];
   const seg=['Invoices','Payments'].map(t=>`<button class="h-9 px-4 rounded-full text-sm transition ${st.payTab===t?'bg-primary-100 text-primary-1000 font-medium':'bg-white border border-primary-200 text-grey-700 hover:bg-primary-50'}" data-act="payTab" data-v="${t}">${t}</button>`).join('');
   return `<div class="flex gap-2 mb-4">${seg}</div><div class="card !rounded-xl overflow-hidden"><div class="p-4 flex items-center gap-3"><button class="btn btn-w h-10 px-4">${ic('filterQ',18,'#FD8100')}Filter</button><button class="btn btn-w h-10 px-4 !bg-primary-50">${ic('note',18,'#5B31AA')}Saved Views${ic('chevD',16)}</button><button class="btn btn-p h-10 px-4 ml-auto" data-act="toast" data-msg="Add ${st.payTab==='Invoices'?'invoice':'payment'} — not part of this flow">${ic('plus',18)}Add</button></div>
-   ${st.payTab==='Invoices'?`<div class="overflow-x-auto"><table class="tbl"><thead><tr>${['Invoice','Created','Product Name','Amount ($)','Balance Due ($)','Labels','Status','Actions'].map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${inv.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td><td>${dashC}</td><td>${stC(r[5])}</td><td><button class="p-1 rounded hover:bg-primary-100" data-act="toast" data-msg="Invoice — not part of this flow" aria-label="View">${ic('eye',20,'#584777')}</button></td></tr>`).join('')}</tbody></table></div>${pager(inv.length)}`:emptyT('No payments yet','Payments recorded against the invoices appear here.')}</div>`}
+   ${st.payTab==='Invoices'?`${npTbl(['Invoice','Created','Product Name','Amount ($)','Balance Due ($)','Labels','Status','Actions'],inv.map(r=>[r[0],r[1],r[2],r[3],r[4],dashC,stC(r[5]),`<button class="p-1 rounded hover:bg-primary-100" data-act="toast" data-msg="Invoice — not part of this flow" aria-label="View">${ic('eye',20,'#584777')}</button>`]),{bare:1,key:'profInv'})}`:emptyT('No payments yet','Payments recorded against the invoices appear here.')}</div>`}
  case 'Visa Info':return st.visa?`<h2 class="text-base font-medium text-grey-900 mb-4">Visa Info</h2><div class="card !rounded-xl p-6 flex items-center gap-4"><span class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">${ic('tickCircle',24,'#0E9F6E')}</span><div><div class="font-semibold text-grey-1000">Visa stage unlocked</div><div class="text-sm text-grey-600">The participant can now submit their visa information.</div></div></div>`:`<h2 class="text-base font-medium text-grey-900">Visa Info</h2><div class="py-16 flex flex-col items-center text-center"><div class="relative w-[140px] h-[140px] rounded-full flex items-center justify-center" style="background:#FFF2E5"><span class="w-14 h-14 rounded-xl bg-secondary-1000 flex items-center justify-center"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><circle cx="12" cy="16" r="1.4" fill="#fff"/></svg></span><span class="absolute -top-1 right-2 text-grey-300">✦</span><span class="absolute bottom-6 -left-1 text-grey-300 text-xs">✦</span></div><div class="text-base font-semibold text-grey-1000 mt-4">Visa stage hasn’t been unlocked yet</div><div class="text-sm text-grey-700 max-w-[340px] mt-1">This stage is currently unavailable to the student. Unlock it when you’re ready for them to proceed.</div><button class="btn btn-p h-10 px-4 mt-3" data-act="unlockVisa">Unlock Stage</button></div>`;
  case 'Flight Info':return `<h2 class="text-base font-medium text-grey-900">Flight Info</h2><div class="py-16 flex flex-col items-center text-center"><div class="relative w-[140px] h-[140px] rounded-full flex items-center justify-center" style="background:#EFEAF6"><span class="w-14 h-14 rounded-xl bg-grey-400 flex items-center justify-center">${ic('airplane',30,'#fff')}</span><span class="absolute -top-1 right-2 text-grey-300">✦</span><span class="absolute bottom-6 -left-1 text-grey-300 text-xs">✦</span></div><div class="text-base font-semibold text-grey-1000 mt-4">Flight Info Not Added Yet</div><div class="text-sm text-grey-700 max-w-[340px] mt-1">Add your flight details so your program coordinator can track your travel plans and arrival schedule.</div><button class="btn btn-p h-10 px-4 mt-3" data-act="toast">Add Flight Info</button></div>`;
  case 'Tasks':return notesTasks(st);
@@ -2018,7 +2325,7 @@ function exProfBody(p){const st=S.pp;
  }
  return ''}
 function saProfBody(p){const st=S.pp;
- if(p.tab==='Universities Applications'){const rows=S.T.saSch.slice(0,3);return `<div class="card !rounded-xl overflow-hidden"><div class="p-4 flex items-center justify-between"><h2 class="text-xl font-medium text-grey-1000">Universities Applications (${rows.length})</h2><button class="btn btn-p h-10 px-4" data-act="toast" data-msg="Apply to a school — use Program Finder">${ic('plus',18)}Add</button></div><div class="overflow-x-auto"><table class="tbl"><thead><tr>${['School','Major','Intake','Status','Submitted'].map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr><td>${schC(r)}</td><td><span class="cell">${esc(r.major)}</span></td><td>${r.intake}</td><td>${stC(r.status)}</td><td>${r.submitted}</td></tr>`).join('')}</tbody></table></div></div>`}
+ if(p.tab==='Universities Applications'){const rows=S.T.saSch.slice(0,3);return `<div class="card !rounded-xl overflow-hidden"><div class="p-4 flex items-center justify-between"><h2 class="text-xl font-medium text-grey-1000">Universities Applications (${rows.length})</h2><button class="btn btn-p h-10 px-4" data-act="toast" data-msg="Apply to a school — use Program Finder">${ic('plus',18)}Add</button></div>${npTbl(['School','Major','Intake','Status','Submitted'],rows.map(r=>[schC(r),`<span class="cell">${esc(r.major)}</span>`,r.intake,stC(r.status),r.submitted]),{bare:1,key:'profUni'})}</div>`}
  if(p.tab==='Appointments')return apptTab(st,p.appts,'Appointments');
  if(p.tab==='Documents')return docsBlock(st);
  if(p.tab==='Tasks')return notesTasks(st);
@@ -2121,7 +2428,7 @@ function paxPage(key,title,cols,extra){
     ${svBtn(key)}${key==='ceTrack'?`<span class="inline-flex p-1 rounded-xl bg-primary-50 border border-primary-100 shrink-0" role="group" aria-label="Layout"><button class="h-8 px-3 rounded-lg text-sm font-medium inline-flex items-center gap-1.5 ${S.kb?'text-grey-700':'bg-white text-primary-1000 shadow-sm'}" data-act="kbSet" data-v="0" aria-pressed="${!S.kb}">${vx('row-vertical',16)}Table</button><button class="h-8 px-3 rounded-lg text-sm font-medium inline-flex items-center gap-1.5 ${S.kb?'bg-white text-primary-1000 shadow-sm':'text-grey-700'}" data-act="kbSet" data-v="1" aria-pressed="${!!S.kb}">${vx('tc-pipeline',16)}Kanban</button></span>`:''}${S.tnew&&GRP[key]?`<button class="h-10 px-3 shrink-0 rounded-xl border ${S.grp[key]?'border-primary-300 bg-primary-100 text-primary-1000':'border-primary-200 bg-white text-grey-900 hover:bg-primary-50'} inline-flex items-center gap-2 text-sm font-medium" data-act="grpMenu" data-k="${key}" aria-haspopup="menu" aria-expanded="false">${ic('layers',18,'#5B31AA')}${S.grp[key]?'Grouped by '+GRP_LBL[S.grp[key]]:'Group by'}</button>`:''}<div class="ml-auto flex items-center gap-3 shrink-0">${extra||''}<button class="iconbtn" data-act="colSet" data-k="${key}" aria-label="Table settings" title="Table settings">${vx('row-horizontal',22)}</button></div></div>`;
  const tabs=EX_STG.map(s=>[s,inProg.filter(r=>r.stage===s).length]);
  return `<div class="p-6 pb-8 tbl-page">${crumbHead(tA('Cultural Exchange'),tA(title),EXP,S.ce.prog,'ceProg',key)}
-  ${key==='ceTrack'&&S.kb?`<div class="card mt-6 overflow-hidden flex flex-col kb-card">${bar}${kbBoard(key)}</div></div>`:`<div class="card mt-6 overflow-hidden"><div class="tabrow" role="tablist">${tabs.map(([t,c])=>`<button role="tab" aria-selected="${S.ceStg[key]===t}" class="${S.ceStg[key]===t?'on':''}" data-act="paxTab" data-k="${key}" data-v="${t}">${tA(t)} (${c})</button>`).join('')}</div>
+  ${key==='ceTrack'&&S.kb?`<div class="card mt-6 overflow-hidden flex flex-col kb-card">${bar}${kbBoard(key)}</div></div>`:`<div class="card mt-6 overflow-hidden"><div class="tabrow" role="tablist">${tabs.map(([t,c])=>`<button role="tab" aria-selected="${S.ceStg[key]===t}" class="${S.ceStg[key]===t?'on':''}" data-act="paxTab" data-k="${key}" data-v="${t}">${tA(t)}${tabN(c)}</button>`).join('')}</div>
   ${bar}
   ${table(key,cols,rows,'clickable')}</div></div>`}`}
 
@@ -2340,26 +2647,42 @@ function docViewer(r,d,o={}){const host=document.createElement('div');host.class
 /* Study Abroad module = same flow as Exchange (prefix sa/) + Schools step, Catalog and Program Finder */
 
 /* ---- Main nav pages (live CRM structure: dashboards, tasks, reminders, placements, users, accounting, settings) */
-const NAV_PAGES={dashboard:['Dashboard','tc-dashboard'],reminders:['Reminders','tc-reminder'],'all-placements':['Placements','tc-placement'],tasks:['Tasks','taskSquare'],'system-users':['System Users','personalcard'],accounting:['Accounting','math'],commissions:['Commissions','tc-commission'],settings:['Settings','setting'],'knowledge-center':['Knowledge Center','tc-knowledge-center']};
+const NAV_PAGES={dashboard:['Dashboard','tc-dashboard'],reminders:['Reminders','tc-reminder'],'all-placements':['Placements','tc-placement'],tasks:['Tasks','taskSquare'],universities:['Universities','tc-graduate'],announcements:['Announcements','tc-broadcast'],'system-users':['System Users','personalcard'],accounting:['Accounting','math'],commissions:['Commissions','tc-commission'],settings:['Settings','setting'],'knowledge-center':['Knowledge Center','tc-knowledge-center']};
 Object.assign(SST,{'In progress':'bg-blue-100 text-blue-700',Overdue:'bg-red-100 text-red-600',Open:'bg-grey-100 text-grey-700',Delivered:'bg-green-100 text-green-500',Failed:'bg-red-100 text-red-600',Read:'bg-primary-100 text-primary-1000',Scheduled:'bg-secondary-100 text-secondary-1000','Partially Paid':'bg-secondary-100 text-secondary-1000',Paid:'bg-green-100 text-green-500',Unpaid:'bg-red-100 text-red-600',Approved:'bg-green-100 text-green-500',Inactive:'bg-grey-100 text-grey-700',Available:'bg-green-100 text-green-500',Full:'bg-grey-100 text-grey-700',Earned:'bg-green-100 text-green-500','Pending payout':'bg-secondary-100 text-secondary-1000',Published:'bg-green-100 text-green-500'});
 const NPI={'user-add':'profile-2user','tick-circle':'tickCircle',timer:'clock',wallet:'money','send-2':'mail','close-circle':'closeC',chart:'chart'};
 const npI=(n,sz=20,c='#5B31AA')=>{n=NPI[n]||n;if(n.startsWith('tc-'))return tci(n.slice(3),sz,c);return (VX[n]?vx(n,sz,c):'')||ic(n,sz,c)||mi(n,sz)};
 const PRI={Urgent:'bg-red-100 text-red-600',High:'bg-secondary-100 text-secondary-1000',Medium:'bg-yellow-100 text-yellow-800',Low:'bg-grey-100 text-grey-700'};
 S.np=S.np||{};
 const npTab=(p,tabs)=>{const cur=S.np[p]&&tabs.includes(S.np[p])?S.np[p]:tabs[0];S.np[p]=cur;return cur};
-const npTabs=(p,tabs,cur,counts={})=>`<div class="tabrow !gap-5 -mx-6 px-6 mb-4 border-b border-primary-200" role="tablist">${tabs.map(t=>`<button role="tab" data-tico="1" aria-selected="${cur===t}" class="${cur===t?'on':''}" data-act="npTab" data-p="${p}" data-t="${esc(t)}">${esc(t)}${counts[t]!=null?` (${counts[t]})`:''}</button>`).join('')}</div>`;
+const npTabs=(p,tabs,cur,counts={})=>`<div class="tabrow !gap-5 -mx-6 px-6 mb-4 border-b border-primary-200" role="tablist">${tabs.map(t=>`<button role="tab" data-tico="1" aria-selected="${cur===t}" class="${cur===t?'on':''}" data-act="npTab" data-p="${p}" data-t="${esc(t)}">${esc(t)}${tabN(counts[t])}</button>`).join('')}</div>`;
 const npAv=n=>`<span class="w-8 h-8 rounded-full bg-primary-100 text-primary-1000 text-xs font-semibold inline-flex items-center justify-center shrink-0">${esc(n.split(' ').map(w=>w[0]).slice(0,2).join(''))}</span>`;
 const npWho=(n,sub)=>`<div class="flex items-center gap-2 min-w-0">${npAv(n)}<div class="leading-tight min-w-0"><div class="cell text-grey-900 truncate">${esc(n)}</div>${sub?`<div class="text-xs text-grey-600">${esc(sub)}</div>`:''}</div></div>`;
 const npAct=(...k)=>`<div class="flex items-center gap-1">${k.map(a=>`<button class="p-1.5 rounded-lg hover:bg-primary-100 text-grey-700" data-act="toast" data-msg="${a==='trash'?'Deleted (prototype)':a==='edit'?'Edit — not part of this flow':'Opened (prototype)'}" aria-label="${a}">${ic(a,18,a==='trash'?'#E02424':'currentColor')}</button>`).join('')}</div>`;
+/* Table component wrapper: any list (cols = labels, rows = arrays of cell HTML) renders through tableHtml,
+   so every table shares the same header, sort, search, filter, column settings, selection, pager and empty state.
+   opts.compact → same table without the toolbar (tables inside cards / profile tabs). */
+/* Table component for object rows (editable cells). Rows live in S.T[key] so the field cells can find and update them. */
+function objTbl(key,C,rows,opts={}){
+ S.T[key]=rows;S.sel[key]??=new Set();S.q[key]??='';S.sort[key]??={k:null,d:1};S.filt[key]??='All';
+ LIST[key]=()=>S.T[key];
+ const shown=applyRows(key,S.T[key],opts.search||['name'],null);
+ let bar=toolbar(key,{addLabel:opts.add||'',addAct:'toast',gear:1,searchPh:'Search ..'});
+ bar=bar.replace(/<button class="btn btn-p h-10 px-4" data-act="toast">/,`${opts.export?`<button class="btn btn-w h-10 px-4" data-act="toast" data-msg="Export started">${ic('export',18,'#FD8100')}Export</button>`:''}<button class="btn btn-p h-10 px-4 ${opts.add?'':'hidden'}" data-act="toast" data-msg="${esc(opts.add||'')} — not part of this flow">`);
+ return `<div class="card !rounded-xl overflow-hidden">${bar}${tableHtml(key,C,shown,'')}</div>`}
+const numC=v=>`<span class="tnum text-grey-900">${v}</span>`;
 function npTbl(cols,rows,opts={}){
- const bar=`<div class="flex items-center gap-3 p-4 border-b border-primary-200 flex-wrap"><label class="h-10 w-[300px] max-w-full rounded-xl border border-primary-200 bg-primary-30 flex items-center gap-2 px-3 text-sm text-grey-600">${ic('search',18)}<input class="flex-1 min-w-0 bg-transparent outline-none text-grey-800" placeholder="Search .." aria-label="Search"></label>
-  ${opts.filter!==false?`<button class="h-10 px-3 rounded-xl border border-primary-200 bg-white text-sm text-grey-800 inline-flex items-center gap-2 hover:bg-primary-50" data-act="toast" data-msg="Filter — not part of this flow">${ic('filter',18)}Filter</button>`:''}
-  ${opts.views?`<button class="h-10 px-3 rounded-xl border border-primary-200 bg-white text-sm text-grey-800 inline-flex items-center gap-2 hover:bg-primary-50" data-act="toast" data-msg="Saved Views — not part of this flow">${ic('note',18)}Saved Views</button>`:''}
-  <span class="flex-1"></span>${opts.export?`<button class="h-10 px-3 rounded-xl border border-secondary-300 bg-white text-sm text-grey-800 inline-flex items-center gap-2 hover:bg-secondary-50" data-act="toast" data-msg="Export started">${ic('export',18,'#FD8100')}Export</button>`:''}
-  ${opts.add?`<button class="h-10 px-4 rounded-xl bg-primary-1000 hover:bg-primary-900 text-white text-sm font-medium inline-flex items-center gap-2" data-act="toast" data-msg="${esc(opts.add)} — not part of this flow">${ic('plus',18,'#fff')}${esc(opts.add)}</button>`:''}</div>`;
- const body=rows.length?`<div class="overflow-x-auto"><table class="tbl"><thead><tr>${cols.map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>${pager(rows.length)}`
-  :emptyT(opts.emptyTitle||'No data yet',opts.emptyText||'There are no items to display in this list.');
- return `<div class="card !rounded-xl overflow-hidden">${bar}${body}</div>`}
+ const key='np_'+(opts.key||cols.join('').replace(/\W+/g,'').slice(0,48));
+ S.sel[key]??=new Set();S.q[key]??='';S.sort[key]??={k:null,d:1};S.filt[key]??='All';
+ const strip=h=>String(h??'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
+ const objs=rows.map((r,i)=>{const o={id:key+'-'+i};r.forEach((h,j)=>{o['h'+j]=h;o['c'+j]=strip(h)});return o});
+ const C=cols.map((l,j)=>l==='Actions'?{k:'act',label:l,w:130,r:r=>r['h'+j]}:{k:'c'+j,label:esc(l),sort:1,w:opts.w?.[j]||(j===0?220:170),fv:r=>r['c'+j],r:r=>r['h'+j]});
+ LIST[key]=()=>objs;
+ const shown=applyRows(key,objs,cols.map((_,j)=>'c'+j),null);
+ if(opts.bare)return tableHtml(key,C,shown,'');
+ if(opts.compact)return `<div class="card !rounded-xl overflow-hidden tbl-compact">${tableHtml(key,C,shown,'')}</div>`;
+ let bar=toolbar(key,{addLabel:opts.add||'',addAct:'toast',gear:1,searchPh:'Search ..'});
+ bar=bar.replace(/<button class="btn btn-p h-10 px-4" data-act="toast">/,`${opts.export?`<button class="btn btn-w h-10 px-4" data-act="toast" data-msg="Export started">${ic('export',18,'#FD8100')}Export</button>`:''}<button class="btn btn-p h-10 px-4 ${opts.add?'':'hidden'}" data-act="toast" data-msg="${esc(opts.add||'')} — not part of this flow">`);
+ return `<div class="card !rounded-xl overflow-hidden">${bar}${tableHtml(key,C,shown,'')}</div>`}
 const npKpi=(l,v,sub,ico)=>`<div class="card !rounded-xl p-4 flex items-start justify-between gap-3"><div class="min-w-0"><div class="text-sm text-grey-600 truncate">${esc(l)}</div><div class="text-2xl font-semibold text-grey-1000 mt-1 tnum">${esc(v)}</div>${sub?`<div class="text-xs text-grey-600 mt-1">${sub}</div>`:''}</div><span class="w-10 h-10 rounded-xl bg-primary-50 text-primary-1000 flex items-center justify-center shrink-0">${npI(ico)}</span></div>`;
 const npBars=(rows,max)=>rows.map(([l,v,c])=>`<div class="flex items-center gap-3 text-sm"><span class="w-36 text-grey-700 truncate">${esc(l)}</span><span class="flex-1 h-2.5 rounded-full bg-grey-100 overflow-hidden"><span class="block h-full rounded-full" style="width:${Math.round(v/max*100)}%;background:${c||'#5B31AA'}"></span></span><span class="w-12 text-right tnum text-grey-900">${v}</span></div>`).join('');
 const npCard=(t,body,right='')=>`<div class="card !rounded-xl p-4"><div class="flex items-center justify-between mb-4"><h3 class="text-base font-medium text-grey-1000">${esc(t)}</h3>${right}</div>${body}</div>`;
@@ -2389,9 +2712,26 @@ function pgDashboard(){
  return `<div class="p-6 pb-8">${npTabs('dashboard',['Lead Management','Programs','Accounting','Employee'],cur)}<h2 class="text-xl font-medium text-grey-1000 mb-4">${esc(cur)} Dashboard <span class="pill !h-6 !text-xs bg-secondary-100 text-secondary-1000 align-middle">Beta</span></h2>${body}</div>`}
 
 function pgTasks(){
- const rows=[['Review application','TSK-26-0034','24 Nov 2026','30 Nov 2026','In progress','Low'],['Visa appointment','TSK-26-0032','30 Oct 2026','5 Nov 2026','Closed','Low'],['Call back about fees','TSK-26-0031','21 Oct 2026','23 Oct 2026','Overdue','Urgent'],['Send contract','TSK-26-0030','18 Oct 2026','25 Oct 2026','Open','Medium'],['Interview prep','TSK-26-0029','13 Oct 2026','14 Oct 2026','Overdue','High'],['Follow up','TSK-26-0028','10 Oct 2026','24 Oct 2026','Closed','Low']];
+ S.T.tasks??=[['Review application','TSK-26-0034','24 Nov 2026','30 Nov 2026','In progress','Low'],['Visa appointment','TSK-26-0032','30 Oct 2026','5 Nov 2026','Closed','Low'],['Call back about fees','TSK-26-0031','21 Oct 2026','23 Oct 2026','Overdue','Urgent'],['Send contract','TSK-26-0030','18 Oct 2026','25 Oct 2026','Open','Medium'],['Interview prep','TSK-26-0029','13 Oct 2026','14 Oct 2026','Overdue','High'],['Follow up','TSK-26-0028','10 Oct 2026','24 Oct 2026','Closed','Low']].map((r,i)=>({id:'TK'+i,name:r[0],code:r[1],date:r[2],due:r[3],status:r[4],pri:r[5],by:NPS[i%4],to:NPS[(i+1)%4]}));
+ const C=[{k:'by',label:'Created by',sort:1,w:200,r:r=>npWho(r.by)},{k:'name',label:'Task Name',sort:1,w:220,r:r=>`<div class="leading-tight"><span class="cell text-grey-900">${esc(r.name)}</span><div class="text-xs text-grey-600">${r.code}</div></div>`},
+  {k:'date',label:'Date',sort:1,w:150,r:r=>txtC(r.date)},{k:'due',label:'Due Date',sort:1,w:150,r:r=>txtC(r.due)},{k:'status',label:'Status',sort:1,w:160,r:r=>fc(r,'tstatus')},{k:'pri',label:'Priority',sort:1,w:140,r:r=>fc(r,'tpri')},
+  {k:'to',label:'Assigned to',sort:1,w:190,r:r=>npWho(r.to)},{k:'watch',label:'Watchers',w:140,r:()=>dashC},{k:'lbl',label:'Labels',w:140,r:()=>dashC},{k:'act',label:'Actions',w:130,r:()=>npAct('eye','edit','trash')}];
  return `<div class="p-6 pb-8"><div class="flex items-center gap-2 mb-4"><button class="h-10 px-3 rounded-xl border border-primary-200 bg-white text-sm text-grey-800 inline-flex items-center gap-2" data-act="toast" data-msg="Workspaces — not part of this flow">${mi('category',18)}Default Workspace${ic('chevD',14)}</button></div>
- ${npTbl(['Created by','Task Name','Date','Due Date','Status','Priority','Assigned to','Watchers','Labels','Actions'],rows.map((r,i)=>[npWho(NPS[i%4]),`<div class="leading-tight"><span class="cell text-grey-900">${r[0]}</span><div class="text-xs text-grey-600">${r[1]}</div></div>`,txtC(r[2]),txtC(r[3]),stC(r[4]),`<span class="pill ${PRI[r[5]]}">${r[5]}</span>`,npWho(NPS[(i+1)%4]),dashC,dashC,npAct('eye','edit','trash')]),{views:true,add:'Add Task',total:42})}</div>`}
+ ${objTbl('tasks',C,S.T.tasks,{add:'Add Task',search:['name','code','by','to','status','pri']})}</div>`}
+/* Universities — columns and order from the live system (26 Nov 2026); sample data */
+function pgUniversities(){
+ const U=[['Cairo University','Giza','Egypt','cu.edu.eg'],['Ain Shams University','Cairo','Egypt','asu.edu.eg'],['Alexandria University','Alexandria','Egypt','alexu.edu.eg'],['Mansoura University','Mansoura','Egypt','mans.edu.eg'],['Helwan University','Cairo','Egypt','helwan.edu.eg'],['German University in Cairo','New Cairo','Egypt','guc.edu.eg'],['Nile University','Giza','Egypt','nu.edu.eg'],['University of Jordan','Amman','Jordan','ju.edu.jo']];
+ S.T.univ??=U.map((u,i)=>({id:'UN'+i,name:u[0],status:['Active','Partner','','Active','Inactive','Partner','',''][i],mgr:i%3===2?'':NPS[i%4],website:u[3],city:u[1],country:u[2],contact:i%2?'':['Mona Adel','Karim Fathy','Hala Samir','Tarek Nabil'][i%4],email:i%2?'':'intl@'+u[3],phone:i%2?'':'+20'+(1001200300+i*4111),leads:[42,31,18,0,7,25,3,0][i],parts:[12,8,4,0,1,9,0,0][i]}));
+ const C=[{k:'name',label:'University Name',sort:1,w:240,r:r=>fc(r,'uname')},{k:'status',label:'Status',sort:1,w:150,r:r=>fc(r,'ustatus')},{k:'mgr',label:'Account Manager',sort:1,w:190,r:r=>r.mgr?npWho(r.mgr):`<button class="cell-edit text-grey-500" data-act="toast" data-msg="Assign account manager — not part of this flow">${ic('plus',16)}</button>`},
+  {k:'website',label:'Website',sort:1,w:190,r:r=>fc(r,'website')},{k:'city',label:'City',sort:1,w:150,r:r=>fc(r,'city')},{k:'country',label:'Country',sort:1,w:170,r:r=>fc(r,'country')},{k:'contact',label:'Contact Name',sort:1,w:170,r:r=>fc(r,'contact')},
+  {k:'email',label:'Email',sort:1,w:230,r:r=>fc(r,'email')},{k:'phone',label:'Phone Number',sort:1,w:220,r:r=>fc(r,'phone')},{k:'leads',label:'Leads',sort:1,w:130,r:r=>numC(r.leads)},{k:'parts',label:'Participants',sort:1,w:160,r:r=>numC(r.parts)},{k:'lbl',label:'Labels',w:140,r:()=>dashC},{k:'act',label:'Actions',w:130,r:()=>npAct('eye','edit','trash')}];
+ return `<div class="p-6 pb-8">${objTbl('univ',C,S.T.univ,{add:'Add University',export:1,search:['name','city','country','contact','email']})}</div>`}
+/* Announcements — columns and order from the live system; Type = Image / Video (from the live Add form); sample data */
+function pgAnnouncements(){
+ S.T.ann??=[['Summer Work & Travel 2027 is open','Image',1240,'Apply now','https://ticlick.example/swt',318,'2 Nov 2026','2026-11-03','2026-12-31','Active'],['Visa interview tips','Video',860,'Watch','https://ticlick.example/visa',142,'10 Nov 2026','2026-11-10','2026-11-30','Active'],['Camp Counselor info session','Image',0,'','',0,'20 Nov 2026','2026-12-05','2026-12-20','Scheduled'],['Early bird discount','Image',2310,'Learn more','https://ticlick.example/offer',509,'1 Sep 2026','2026-09-01','2026-10-01','Expired']].map((a,i)=>({id:'AN'+i,name:a[0],type:a[1],views:a[2],btn:a[3],link:a[4],clicks:a[5],created:a[6],share:a[7],exp:a[8],status:a[9]}));
+ const C=[{k:'name',label:'Name',sort:1,w:260,r:r=>fc(r,'aname')},{k:'type',label:'Type',sort:1,w:140,r:r=>fc(r,'atype')},{k:'views',label:'Views',sort:1,w:130,r:r=>numC(r.views.toLocaleString())},{k:'btn',label:'Button Name',sort:1,w:170,r:r=>fc(r,'abtn')},{k:'link',label:'Link',w:230,r:r=>fc(r,'alink')},
+  {k:'clicks',label:'Clicks',sort:1,w:130,r:r=>numC(r.clicks.toLocaleString())},{k:'created',label:'Created',sort:1,w:160,r:r=>txtC(r.created)},{k:'share',label:'Share at',sort:1,w:160,r:r=>fc(r,'ashare')},{k:'exp',label:'Expire at',sort:1,w:160,r:r=>fc(r,'aexp')},{k:'status',label:'Status',sort:1,w:140,r:r=>fc(r,'astatus')},{k:'act',label:'Actions',w:130,r:()=>npAct('eye','edit','trash')}];
+ return `<div class="p-6 pb-8">${objTbl('ann',C,S.T.ann,{add:'Add Announcement',search:['name','type','btn','status']})}</div>`}
 
 function pgReminders(){
  const cur=npTab('reminders',['Overview','All reminders','Templates']);let body='';
@@ -2450,7 +2790,7 @@ function pgKnowledge(){
  return `<div class="p-6 pb-8"><div class="card !rounded-xl p-6 mb-4 flex items-center gap-4"><div class="flex-1"><div class="text-xl font-medium text-grey-1000">How can we help?</div><label class="mt-3 h-11 rounded-xl border border-primary-200 bg-primary-30 flex items-center gap-2 px-3 text-sm max-w-xl">${ic('search',18)}<input class="flex-1 bg-transparent outline-none" placeholder="Search articles .." aria-label="Search articles"></label></div></div>
  <div class="grid grid-cols-3 gap-4">${arts.map(([t,c,m])=>`<button class="card !rounded-xl p-4 text-left hover:border-primary-1000 transition" data-act="toast" data-msg="${t} — article not part of this flow"><span class="pill !h-6 !text-xs bg-primary-100 text-primary-1000">${c}</span><div class="text-base font-medium text-grey-1000 mt-2">${t}</div><div class="text-xs text-grey-600 mt-1">${m} read</div></button>`).join('')}</div></div>`}
 
-const ROUTES={dashboard:pgDashboard,reminders:pgReminders,'all-placements':pgAllPlacements,tasks:pgTasks,'system-users':pgSysUsers,accounting:pgAccounting,commissions:pgCommissions,settings:pgSettings,'knowledge-center':pgKnowledge,leads:pgLeads,participants:pgParts,programs:pgProgs,profile:pgProfile,'create/info':stepInfo,'create/stages':stepStages,'create/application':stepApp,'create/documents':stepDocs,'core/creation':coreCreation,'core/application':coreApp,'core/documents':coreDocs};
+const ROUTES={dashboard:pgDashboard,reminders:pgReminders,'all-placements':pgAllPlacements,tasks:pgTasks,universities:pgUniversities,announcements:pgAnnouncements,'system-users':pgSysUsers,accounting:pgAccounting,commissions:pgCommissions,settings:pgSettings,'knowledge-center':pgKnowledge,leads:pgLeads,participants:pgParts,programs:pgProgs,profile:pgProfile,'create/info':stepInfo,'create/stages':stepStages,'create/application':stepApp,'create/documents':stepDocs,'core/creation':coreCreation,'core/application':coreApp,'core/documents':coreDocs};
 Object.keys(ROUTES).forEach(k=>{ROUTES['sa/'+k]=ROUTES[k]});ROUTES['sa/create/schools']=stepSchools;ROUTES['sa/catalog']=pgFrame;ROUTES['sa/finder']=pgFrame;ROUTES['brand-theme']=pgBrand;
 Object.assign(ROUTES,{lead:pgLead,'leads/follow-ups':pgFollow,programs:pgProgsEx,'sa/programs':pgProgsSa,applications:pgCeApps,placements:pgCePlace,tracker:pgCeTrack,documents:pgCeDocs,
  'sa/applications':pgSaApps,'sa/school-applications':pgSaSch,'sa/tracker':pgSaTrack,'sa/schools':pgSchools,'sa/majors':pgMajors});
@@ -2496,6 +2836,7 @@ function morphEl(a,b){
   const focused=document.activeElement===a;
   syncAttrs(a,b);
   const t=a.tagName;
+  if(t==='TBODY'){const h=b.innerHTML;if(a.innerHTML!==h)a.innerHTML=h;return} /* perf: big tables are swapped whole, a node-by-node diff froze the page */
   if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT'){
     if(!focused){if(a.type==='checkbox'||a.type==='radio')a.checked=b.checked||b.hasAttribute('checked');else if(a.value!==b.getAttribute('value')&&t==='INPUT')a.value=b.getAttribute('value')??''}
     if(t==='SELECT'||t==='TEXTAREA'){if(!focused)morphKids(a,b)}
@@ -2550,8 +2891,8 @@ function render(keep=true){
   const lockSA=!S.saSub&&isSA();const fn=lockSA?pgNoSub:(ROUTES[route]||pgLeads);const wiz=/^(create|core)/.test(rb())&&!(lockSA&&!rb().startsWith('core'));
   $('#statusbar').style.display=wiz?'none':'';page.style.overflow=wiz?'hidden':'auto';if(lockSA){const h=$('#sa-host');if(h)h.style.display='none';page.style.display=''}else syncFrame();
   if(!lockSA&&FRAME_ROUTES[route]){page.innerHTML='';renderMenu(route);return}
-  PAGE_TB='';const html=fn();if(keep&&page.firstElementChild)smartRender(page,html);else page.innerHTML=html;renderMenu(route);pageTitle();if(S.pv?.open)pvMark();requestAnimationFrame(()=>{pinLayout();fitLists()});
-  $$('.ck[data-ind]').forEach(c=>c.indeterminate=true);tblShadows();
+  PAGE_TB='';const html=fn();if(keep&&page.firstElementChild)smartRender(page,html);else page.innerHTML=html;renderMenu(route);pageTitle();if(S.pv?.open)pvMark();requestAnimationFrame(()=>{pinLayout();fitLists();tblShadows()});
+  $$('.ck[data-ind]').forEach(c=>c.indeterminate=true);
   const ws2=$('#wiz-scroll');page.scrollTop=st[0];if(ws2)ws2.scrollTop=st[1];
 }
 function tblShadows(){$$('[data-tw]').forEach(w=>{w.classList.toggle('sl',w.scrollLeft>0);w.classList.toggle('sr',w.scrollLeft+w.clientWidth<w.scrollWidth-1)})}
@@ -2604,7 +2945,7 @@ function readComposer(root,id){const ed=root.querySelector(`[data-ned="${id}"]`)
 document.addEventListener('mousedown',e=>{const b=e.target.closest('[data-ncmd]');if(!b)return;e.preventDefault();const c=b.dataset.ncmd;if(c==='createLink'){const u=prompt('Link URL');if(u)document.execCommand(c,false,u)}else document.execCommand(c)});
 function notesCard(r){pxNotes(r);const tab=S.pv.ntab||'fu',nx=nextFu(r);
  return `${nx?`<div class="flex items-center gap-2 rounded-lg ${fuStat(nx.fu)==='Overdue'?'bg-red-50':'bg-primary-50'} px-2.5 py-2 mb-2 text-[12px]"><span class="text-grey-600">Next follow-up</span>${fuChip(nx.fu)}<button class="ml-auto w-7 h-7 rounded-md inline-flex items-center justify-center text-green-600 hover:bg-green-100" data-act="pvFuDone" aria-label="Mark follow-up as done" title="Mark as done">${ic('tickCircle',16,'#0E9F6E')}</button></div>`:''}
-  <div class="flex gap-4 border-b border-primary-100 mb-2.5 text-sm" role="tablist"><button role="tab" aria-selected="${tab==='fu'}" class="ntab ${tab==='fu'?'on':''}" data-act="pvNTab" data-v="fu">Follow-up</button><button role="tab" aria-selected="${tab==='last'}" class="ntab ${tab==='last'?'on':''}" data-act="pvNTab" data-v="last">Last Notes <span class="ml-1 px-1.5 rounded bg-grey-100 text-grey-700 text-[11px]">${r.notes.length}</span></button></div>
+  <div class="flex gap-4 border-b border-primary-100 mb-2.5 text-sm" role="tablist"><button role="tab" aria-selected="${tab==='fu'}" class="ntab ${tab==='fu'?'on':''}" data-act="pvNTab" data-v="fu">Follow-up</button><button role="tab" aria-selected="${tab==='last'}" class="ntab ${tab==='last'?'on':''}" data-act="pvNTab" data-v="last">Last Notes${tabN(r.notes.length)}</button></div>
   ${tab==='fu'?`${noteComposer('pv')}<div class="flex justify-end mt-2.5"><button class="btn btn-p h-9 px-4 !text-sm" data-act="pvNoteSave">Save</button></div>`
    :`<div class="flex flex-col gap-2 max-h-[260px] overflow-y-auto">${r.notes.map(n=>`<div class="rounded-lg bg-grey-50 p-2.5"><div class="text-sm text-grey-900 whitespace-pre-line">${esc(n.t)}</div><div class="flex items-center gap-2 mt-1.5 flex-wrap"><span class="text-[11px] text-grey-500">${esc(n.by)} · ${esc(n.at)}</span>${n.fu?fuChip(n.fu):''}</div></div>`).join('')||`<div class="py-3 text-center text-xs text-grey-500">No notes yet</div>`}</div>`}`}
 function notePop(anchor,r){closePop();anchor.setAttribute('aria-expanded','true');r.notes=r.notes||[];
@@ -2729,6 +3070,14 @@ const CSTEPS=['core/creation','core/application','core/documents'];
 const rowsOf=k=>({leads:S.leads,parts:S.parts,progs:S.progs}[k]||S.T[k]);
 const confirmDel=(label,fn)=>modal({title:'Delete '+label+'?',body:'This action can\'t be undone.',actions:[{label:'Cancel'},{label:'Delete',cls:'btn-p !bg-red-600 hover:!bg-red-800',fn}]}); /* GAP: delete confirmation derived from DS Popup */
 const H={
+  uaTab:(t)=>{S.ua.tab=t.dataset.v;PG.saSch=1;render()},uaQf:(t)=>{S.ua.qf=S.ua.qf===t.dataset.v?null:t.dataset.v;PG.saSch=1;render()},
+  uaNext:(t,e)=>{e?.stopPropagation?.();const r=S.T.saSch.find(x=>x.id===t.dataset.id);if(r)uaNext(r)},
+  uaCom:(t,e)=>{e?.stopPropagation?.();const r=S.T.saSch.find(x=>x.id===t.dataset.id);const o=['Can be claimed','Invoice sent','Received'];const i=o.indexOf(r.comSt);if(i<2)uaSave(r,{comSt:o[i+1]},`${r.name}: commission ${o[i+1].toLowerCase()}`)},
+  uaOpt:(t)=>{const g=t.closest('[data-ug]');g.dataset.v=t.dataset.v;g.querySelectorAll('.ua-opt').forEach(b=>{const on=b===t;b.className=`ua-opt h-9 px-3 rounded-xl border text-sm ${on?'border-primary-1000 bg-primary-100 text-primary-1000 font-medium':'border-primary-200 bg-white text-grey-800 hover:bg-primary-50'}`});
+    const sub=$(`#layer [data-usub="${g.dataset.ug}"]`);if(sub){const r=S.T.saSch.find(x=>x.id===$('#layer').dataset.uaid);sub.innerHTML=(UA_SUB[t.dataset.v]||(()=>''))(r)}},
+  uaAdd:()=>{const pick=S.T.saSch.find(saProg);modal({wide:1,title:'Add application',body:`<div class="flex flex-col gap-4">${uaF('Student',uaIn('text',pick?.name||'','data-uf="an"'))}${uaGrid(uaF('Institution',uaIn('text','University of Edinburgh','data-uf="ai"')),uaF('Program',uaIn('text','MSc Artificial Intelligence','data-uf="ap"')))}${uaGrid(uaF('Intake',uaOpts('ai2',['Sep 2027','Jan 2028'])),uaF('Application deadline',uaIn('date',uaAdd(60),'data-uf="ad"')))}${uaF('Channel',uaOpts('ach',['Direct','ApplyBoard','Edvoy']))}</div>`,
+    actions:[{label:'Cancel'},{label:'Add application',cls:'btn-p',fn:()=>{const nm=uaVal('an')||'New student';const grp=S.T.saSch.filter(a=>a.name===nm);const r={id:'SSN'+Date.now(),name:nm,code:'#UA-'+(9000+S.T.saSch.length),school:uaVal('ai'),cc:'UK',city:'Edinburgh',major:uaVal('ap'),level:'Master’s',intake:uaV('ai2'),status:'Shortlisted',detail:'Not started',assigned:'Ahmad Al-Mashaikh',program:pick?.program||SAP[0],prio:grp.length+1,of:grp.length+1,cur:'£',tuition:24000,fee:'£60',ch:uaV('ach'),appDl:uaVal('ad'),com:2400,comRate:'10%',upd:'Just now'};grp.forEach(g=>g.of=grp.length+1);S.T.saSch.unshift(r);S.ua.tab='All';render();toast('Application added')}}]})},
+  fcEdit:(t,e)=>{e?.stopPropagation?.();fcOpen(t.closest('.fc')||t)},fcCopy:(t)=>{copyText(FC_DEF[t.dataset.fc].t==='phone'?t.dataset.num.replace(/\s/g,''):t.dataset.num,FC_DEF[t.dataset.fc].label);t.classList.add('fc-copied');setTimeout(()=>t.classList.remove('fc-copied'),1200)},fcLocked:(t)=>toast(FC_DEF[t.dataset.fc].lock),
  toast:(t)=>toast(t.dataset.msg||'Not part of this flow'),
  npTab:(t)=>{S.np[t.dataset.p]=t.dataset.t;render()},
  askTia:(t)=>{if(FRAME_ROUTES[route]&&window.__SA&&window.__SA.cur()==='finder')window.__SA.tia(true);else toast(t.dataset.msg)},
